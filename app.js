@@ -35,14 +35,12 @@ const cert = 'local.pem'
 // Directorio de archivos estáticos
 app.use(express.static(path.join(raiz, 'public')));
 
-
-// Ruta de prueba
-app.get('/', routes);
+app.use('/', routes);
 
 // Rutas no encontradas
-app.use((req, res) => {
-    res.status(404).send('Ruta no encontrada');
-});
+// app.use((req, res) => {
+//     res.status(404).send('Ruta no encontrada');
+// });
 
 // Opciones de configuración HTTPS
 const options = {
