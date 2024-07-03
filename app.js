@@ -16,7 +16,14 @@ const port = 443;
 /**
  * Constantes de las Rutas Ineternas
  */
-const certs = path.join(__dirname, 'certs');
+const raiz = __dirname;
+const certs = path.join(raiz, 'certs');
+const src = path.join(raiz, 'src');
+// const controllers = path.join(src, 'controllers');
+/**
+ * Controlador de Rutas
+ */
+const routes = require(path.join(src, 'routers', 'index'));
 
 /**
  * Nombre de los archivos de certificados
@@ -26,13 +33,11 @@ const cert = 'local.pem'
 
 
 // Directorio de archivos estáticos
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(raiz, 'public')));
 
 
 // Ruta de prueba
-app.get('/', (req, res) => {
-    res.send('Hello HTTPS World!');
-});
+app.get('/', routes);
 
 
 // Opciones de configuración HTTPS
@@ -44,5 +49,5 @@ const options = {
 
 // Crear servidor HTTPS
 https.createServer(options, app).listen(port, '0.0.0.0', () => {
-    console.log(`Servidor HTTPS escuchando en el puerto ${port}`);
+    console.log(`Servidor HTTPS escuchando en el puerto ${port} en la dirección: https://localhost:${port}`);
 });
