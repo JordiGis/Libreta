@@ -23,7 +23,7 @@ const src = path.join(raiz, 'src');
 /**
  * Controlador de Rutas
  */
-const routes = require(path.join(src, 'routers', 'index'));
+const routes = require(path.join(src, 'routers', 'gestorRutas'));
 
 /**
  * Nombre de los archivos de certificados
@@ -39,6 +39,10 @@ app.use(express.static(path.join(raiz, 'public')));
 // Ruta de prueba
 app.get('/', routes);
 
+// Rutas no encontradas
+app.use((req, res) => {
+    res.status(404).send('Ruta no encontrada');
+});
 
 // Opciones de configuración HTTPS
 const options = {
