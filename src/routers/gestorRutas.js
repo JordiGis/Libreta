@@ -1,39 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-/**
- * Conrtoles
- */
+const path = require('path');
+const config = require('../../config');
 // Página de inicio
-const homeController = require('../controllers/homeController');
+const homeController = require(path.join(config.CONTROLADORES, 'homeController'));
 
-
-/**
- * Rutas
- */
-// router.get('/', (req, res) => {
-//     switch (req.path) {
-//         case '/':
-//             ;
-//             break;
-
-//         case '/a':
-//             "aboutController.index(req, res)";
-//             break;
-//             /*
-//         case '/contact':
-//             contactController.index(req, res);
-//             break;
-//         */
-//     }
-// });
 router.get('/', (req, res) => {
-    res.send(homeController.index(req, res));
+    res.send('¡Hola desde la ruta /!');
 });
 
-router.get('/a', (req, res) => {
-    res.send('¡Hola desde la ruta /saludo!');
-});
+router.get('/home', homeController.index);
+
 
 // Exportar el módulo
 module.exports = router;
