@@ -19,7 +19,8 @@ const CERTS = path.join(RAIZ, 'certs');
 const CONTROLADORES = path.join(SRC, 'controllers');
 const RUTAS = path.join(SRC, 'routers');
 const VISTAS = path.join(SRC, 'views');
-const PUBLIC = path.join(SRC, 'public'); 
+const PUBLIC = path.join(SRC, 'public');
+const UTILS = path.join(SRC, 'utils');
 
 /**
 * Nombre de los archivos de certificados
@@ -52,6 +53,7 @@ const config = {
     RUTAS,
     VISTAS,
     PUBLIC,
+    UTILS,
     httpsOptions,
     URL_RAIZ
 }

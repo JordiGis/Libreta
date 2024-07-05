@@ -3,14 +3,21 @@ const router = express.Router();
 
 const path = require('path');
 const config = require('../../config');
-// Página de inicio
-const homeController = require(path.join(config.CONTROLADORES, 'homeController'));
+const urlUtils = require('../utils/urlUtils');
 
+// Clases Controladores
+const ClassHomeController = require(path.join(config.CONTROLADORES, 'homeController'));
+
+// Instancias Controladores
+const homeController = new ClassHomeController();
+
+// Ruta raiz
 router.get('/', (req, res) => {
     res.send('¡Hola desde la ruta /!');
 });
 
-router.get('/home', homeController.index);
+// Rutas de los Modulos
+router.get(homeController.getRuta(), homeController.index);
 
 
 // Exportar el módulo

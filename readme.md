@@ -41,3 +41,11 @@ Tambien se puede cambiar la url base, en el caso por defecto es `/`, pero se pue
  */
 const URL_RAIZ = '/';
 ```
+
+# Edición
+## Creación de nuevos EndPoints
+Para hacer nuevos, primero hay que ver la estructura que esta desarollada.
+Lo primero es que `app.js` delega toda la gastión de las rutas en `gestorRutas.js`.
+En este archivo estaran todas las rutas principales, es decir `/home`, `/user`, pero delegara el resto de logica a los controladores que se encargan de ese Modulo.
+
+Es decir que si le llega una ruta `/home/config`, como la dirección principal es `/home` se ira al controlador `homeController.js` en el metodo index, este metodo es obligarorio para los controladores, ya que es el que se encargara de gestionar las rutas internas del controlador.

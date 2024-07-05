@@ -21,11 +21,8 @@ const app = express();
 const gestorRutas = require(path.join(config.RUTAS, 'gestorRutas'));
 app.use(express.static(config.PUBLIC));
 
+// Delega la gestión de las rutas al gestorRutas
 app.use(config.URL_RAIZ, gestorRutas);
-
-// app.use('/', (req, res) => {
-//     res.send('¡Hola Mundo!');
-// });
 
 // Crear servidor HTTPS
 https.createServer(config.httpsOptions, app).listen(config.PORT, '0.0.0.0', () => {
