@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-
 const path = require('path');
 const config = require('../../config');
-const urlUtils = require('../utils/urlUtils');
 
 // Clases Controladores
 const ClassHomeController = require(path.join(config.CONTROLADORES, 'homeController'));

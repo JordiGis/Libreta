@@ -16,6 +16,7 @@ const PORT = 443
 const RAIZ = __dirname;
 const SRC = path.join(RAIZ, 'src');
 const CERTS = path.join(RAIZ, 'certs');
+const DB = path.join(SRC, 'db');
 const CONTROLADORES = path.join(SRC, 'controllers');
 const RUTAS = path.join(SRC, 'routers');
 const VISTAS = path.join(SRC, 'views');
@@ -50,6 +51,7 @@ const config = {
     RAIZ,
     SRC,
     CERTS,
+    DB,
     CONTROLADORES,
     RUTAS,
     VISTAS,
