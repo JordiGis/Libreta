@@ -22,7 +22,6 @@ class UsuarioDAO {
   }
 
   async getForId(id) {
-    // hacer un findOne sin el id
     return await UsuarioModel.findOne({ _id: id }).exec();
   }
 
@@ -34,8 +33,8 @@ class UsuarioDAO {
     return await UsuarioModel.findByIdAndUpdate(usuario.id, usuario, { new: true })
   }
 
-  async delete(usuario) {
-      return await usuariosDAO.delete(usuario.id);
+  async delete(id) {
+      return await UsuarioModel.delete(id);
   }
 
   // Método para mapear un documento de Mongoose a un objeto de dominio

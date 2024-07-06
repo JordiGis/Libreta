@@ -12,6 +12,55 @@ Plantillas EJS con CSS + Boocktrap y JS + VUE para para poder proporcionar un bu
 El objetivo de esta app web es poder gestioner Tareas o Notas para poder organizarse mejor.
 La app tambien contara con sistema de logIn teniendo diferentes usuario, y en un futuro poder tener Tareas para Grupos de Usuarios.
 
+## Estructura
+### `app.js`
+Archivo principal de la aplicación, que se encarga de inicializar el servidor.
+
+### `config.js`
+Almacena la configuración de la aplicación, como la URL raíz, los certificados, etc.
+
+#### `certs/`
+Almacena los certificados para SSL teniendo HTTS.
+
+### `node_modules/`
+Almacena todos los modulos necesarios para que el servidor funcione con normalidad.
+
+### `src/`
+Carpeta principal de la aplicación, donde se encuentra todo el código fuente.
+
+#### `src/routes/`
+Almacena las rutas de la aplicación y distribuirlas a los controladores, que se encargan de gestionar las peticiones HTTPS.
+
+#### `src/controllers/`
+Almacena los controladores de la aplicación, que se encargan de gestionar las peticiones HTTPS.
+
+#### `src/public/`
+Almacena los archivos estáticos de la aplicación, como imágenes, hojas de estilo y scripts.
+
+#### `src/views/`
+Almacena las vistas de la aplicación, que se encargan de mostrar la información al usuario.
+
+#### `src/models/`
+Almacena los modelos de la aplicación.
+
+##### `src/models/dao/`
+Almacena los DAO (Data Access Object) de la aplicación, que se encargan de gestionar la información de la aplicación.
+
+###### `src/models/dao/mongoDAO/`
+Almacena el DAO de MongoDB, que se encarga de gestionar la información de la aplicación en MongoDB.
+
+#### `src/repository/`
+Almacena los repositorios de la aplicación, que se encargan de gestionar la información de la aplicación.
+
+#### `src/db/`
+Almacena y establece la conexión con la base de datos de la aplicación.
+
+#### `src/infetences/`
+Almacena las interfaces de la aplicación, que se encargan de definir la estructura de los objetos de la aplicación.
+
+#### `src/utils/`
+Almacena las utilidades de la aplicación, que se encargan de realizar tareas auxiliares.
+
 ## Implementación
 ### Cloner Repositorio
 Clonar el repositorio git clone ...
