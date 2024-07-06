@@ -21,7 +21,7 @@ Clonar el repositorio git clone ...
 En la carpeta `certs/` tienen que estar ubicados, esta `mkcer.exe` que sirve para generar certificados, pero no son validos para que sean publicos, solos para pruebas locales.
 En el caso de querer otros una opción es OpenSSL.
 
-#### Cambiar la config.js
+#### Cambiar la `config.js`
 Teniendolos generados hay que dirigirse a:
 ```js
 /**

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const path = require('path');
-const config = require('../../config');
+const config = require('../../../../config');
 const Usuario = require(path.join(config.MODELOS, 'usuario'));
 
 // Definición del esquema del usuario para Mongoose
@@ -8,35 +8,34 @@ const usuarioSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
   fechaNacimiento: { type: Date, required: true },
   email: { type: String, required: true, unique: true },
-  contraseña: { type: String, required: true }
+  password: { type: String, required: true },
+  tareas: [{ type: mongoose.Schema.Types.ObjectId, ref: config.DAO.modelos.tarea }] // Campo no obligatorio
 });
 
-const UsuarioModel = mongoose.model('Usuario', usuarioSchema);
+const UsuarioModel = mongoose.model(config.DAO.modelos.usuario, usuarioSchema, config.DAO.modelos.usuario);
 
 class UsuarioDAO {
-  async crearUsuario(usuarioData) {
-    const usuarioModel = new UsuarioModel(usuarioData);
-    const savedUsuario = await usuarioModel.save();
-    return this.mapTo(savedUsuario);
+  async add(usuario) {
+    const usuarioModel = new UsuarioModel(usuario);
+    await usuarioModel.save();
+    return usuarioModel;
   }
 
-    async add(usuarioModel) {
-        return await UsuarioModel.create(usuarioModel);
-    }
-
-  async obtenerUsuarioPorEmail(email) {
-    const usuarioModel = await UsuarioModel.findOne({ email });
-    return usuarioModel ? this.mapTo(usuarioModel) : null;
+  async getForId(id) {
+    // hacer un findOne sin el id
+    return await UsuarioModel.find();
   }
 
-  async actualizarUsuario(id, usuarioData) {
-    const updatedUsuario = await UsuarioModel.findByIdAndUpdate(id, usuarioData, { new: true });
-    return updatedUsuario ? this.mapTo(updatedUsuario) : null;
+  async getForEmail(email) {
+    return await UsuarioModel.findOne({ email: email });
   }
 
-  async eliminarUsuario(id) {
-    const deletedUsuario = await UsuarioModel.findByIdAndDelete(id);
-    return deletedUsuario ? this.mapTo(deletedUsuario) : null;
+  async update(usuario) {
+    return await UsuarioModel.findByIdAndUpdate(usuario.id, usuario, { new: true })
+  }
+
+  async delete(usuario) {
+      return await usuariosDAO.delete(usuario.id);
   }
 
   // Método para mapear un documento de Mongoose a un objeto de dominio

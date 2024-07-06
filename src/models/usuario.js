@@ -1,10 +1,10 @@
 class Usuario {
-    constructor(id, nombre, fechaNacimiento, email, contraseña) {
+    constructor(id, nombre, fechaNacimiento, email, password) {
         this.id = id;
         this.nombre = nombre;
         this.fechaNacimiento = fechaNacimiento;
         this.email = email;
-        this.contraseña = contraseña;
+        this.password = password;
     }
 
 
@@ -25,13 +25,13 @@ class Usuario {
         return this.email;
     }
 
-    getContraseña() {
-        return this.contraseña;
+    getPassword() {
+        return this.password;
     }
 
-    validarContraseña(contraseña) {
+    validarPassword(password) {
         // Implementar la lógica de validación de la contraseña
-        return this.contraseña === contraseña;
+        return this.password === password;
     }
 
 

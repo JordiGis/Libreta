@@ -21,7 +21,14 @@ const CONTROLADORES = path.join(SRC, 'controllers');
 const RUTAS = path.join(SRC, 'routers');
 const VISTAS = path.join(SRC, 'views');
 const MODELOS = path.join(SRC, 'models');
-const DAO = path.join(path.join(MODELOS, 'dao'), 'mongoDAO'); // En caso de quere otro DAO, cambiar esta línea
+const REPOSITORY = path.join(SRC, 'repository');
+const DAO = {
+    path: path.join(path.join(MODELOS, 'dao'), 'mongoDAO'), // En caso de quere otro DAO, cambiar esta línea
+    modelos: {
+        usuario: 'Usuario', // Nombre de las colecciones
+        tarea: 'Tarea' // Nombre de las colecciones
+    }
+}
 const PUBLIC = path.join(SRC, 'public');
 const UTILS = path.join(SRC, 'utils');
 const INTERFACES = path.join(SRC, 'interfaces');
@@ -58,6 +65,7 @@ const config = {
     RUTAS,
     VISTAS,
     MODELOS,
+    REPOSITORY,
     DAO,
     PUBLIC,
     UTILS,

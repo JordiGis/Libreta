@@ -15,6 +15,18 @@
         <h1>{{ message }}</h1>
     </main>
     
-    <script src="/js/app.js"></script>
+    <script>
+        // Crear una nueva instancia de Vue
+        new Vue({
+            // Indicar el elemento HTML donde se montará la instancia de Vue
+            el: '#app',
+            // Propiedades de la instancia de Vue
+            data: {
+                message: '{{ datosParaVue.mensaje }}'
+            }
+        });
+
+
+    </script>
 </body>
 </html>
