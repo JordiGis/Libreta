@@ -18,7 +18,7 @@ class homeController extends ClassController {
             // Añadir más casos según sea necesario para otras sub-rutas de /home
             default:
                 // Acción por defecto, como mostrar la página principal de /home
-                let usuario = await usuariosRepository.getForId('668968cc4c39432e70889463');
+                let usuario = await usuariosRepository.getForId('66897cee03642530486a957d');
                 res.json(usuario);
                 console.log(usuario);
         }
@@ -31,8 +31,8 @@ class homeController extends ClassController {
 
 function info(req, res) {
     let datosParaVue = {
-        titulo: 'Información',
-        mensaje: '¡Hola desde la ruta /home/info!'
+        titulo: "Información",
+        mensaje: "¡Hola desde la ruta /home/info!"
     };
     res.render(path.join(config.VISTAS, 'index'), { datosParaVue });
 }

@@ -13,8 +13,9 @@
     <main id="app">
         <!-- Contenido de Vue irá aquí -->
         <h1>{{ message }}</h1>
+        <h1>{{ titulo }}</h1>
     </main>
-    
+
     <script>
         // Crear una nueva instancia de Vue
         new Vue({
@@ -22,11 +23,10 @@
             el: '#app',
             // Propiedades de la instancia de Vue
             data: {
-                message: '{{ datosParaVue.mensaje }}'
+                titulo: `<%= datosParaVue.titulo %>`,
+                message: `<%= datosParaVue.mensaje %>`
             }
         });
-
-
     </script>
 </body>
 </html>

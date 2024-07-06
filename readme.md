@@ -6,7 +6,7 @@ Servdor Web mediante:
 Servidor Node.Js usando el MVC, Docker para un facil despliege y MongoDB como Base de Datos junto a MongoOs para filtrar las inserciones de datos.
 
 ### FrontEnd
-Plantillas HTML con CSS + Boocktrap y JS + VUE para para poder proporcionar un buen diseño, escalable y bonito. 
+Plantillas EJS con CSS + Boocktrap y JS + VUE para para poder proporcionar un buen diseño, escalable y bonito. 
 
 ### Objetivo
 El objetivo de esta app web es poder gestioner Tareas o Notas para poder organizarse mejor.
@@ -37,6 +37,7 @@ Esta todo preparado para el uso de MongoDB y MongoOse, para que la palicación e
 En caso de que todo este bien cuando se levante el servidor se implimirar por terminal un mensaje indicandolo.
 
 
+# Edición
 ## Edición de config.js
 Desde ese archivo se puede modificar la estructura de fichero, ya que todo el proyecto recojer las rutas del objeto cofig que se exporta.
 Tambien se puede cambiar la url base, en el caso por defecto es `/`, pero se puede cambiar en la siguiente liena:
@@ -47,7 +48,6 @@ Tambien se puede cambiar la url base, en el caso por defecto es `/`, pero se pue
 const URL_RAIZ = '/';
 ```
 
-# Edición
 ## Creación de nuevos EndPoints
 Para hacer nuevos, primero hay que ver la estructura que esta desarollada.
 Lo primero es que `app.js` delega toda la gastión de las rutas en `gestorRutas.js`.

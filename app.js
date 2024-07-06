@@ -10,13 +10,14 @@ const path = require('path');
 // Importamos el módulo 'config' para poder acceder a las configuraciones
 const config = require('./config');
 
-// Importamos la Base de Datos
-const db = require(path.join(config.DB, 'db'));
-
 /**
  * Creacion de un servidor HTTPS en el puerto 443
  */
 const app = express();
+
+// Configurar el directorio de vistas y el motor de plantillas
+app.set(config.VISTAS);
+app.set('view engine', 'ejs');
 
 /**
  * Gestor de Rutas

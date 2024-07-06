@@ -23,7 +23,7 @@ class UsuarioDAO {
 
   async getForId(id) {
     // hacer un findOne sin el id
-    return await UsuarioModel.find();
+    return await UsuarioModel.findOne({ _id: id }).exec();
   }
 
   async getForEmail(email) {
@@ -44,7 +44,7 @@ class UsuarioDAO {
       usuarioModel._id,
       usuarioModel.nombre,
       usuarioModel.email,
-      usuarioModel.contraseña
+      usuarioModel.password
     );
   }
 
