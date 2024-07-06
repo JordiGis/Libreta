@@ -1,13 +1,10 @@
 const path = require('path');
 const config = require('../../config');
+const ClassController = require(path.join(config.INTERFACES, 'controller'));
 const urlUtils = require(path.join(config.UTILS, 'urlUtils'));
 
-class homeController {
+class homeController extends ClassController {
     ruta = '/home/:path?';
-
-    getRuta() {
-        return this.ruta;
-    }
 
     index(req, res) {
         const subruta = urlUtils.getSubRuta(req.path);

@@ -21,6 +21,7 @@ const RUTAS = path.join(SRC, 'routers');
 const VISTAS = path.join(SRC, 'views');
 const PUBLIC = path.join(SRC, 'public');
 const UTILS = path.join(SRC, 'utils');
+const INTERFACES = path.join(SRC, 'interfaces');
 
 /**
 * Nombre de los archivos de certificados
@@ -54,6 +55,7 @@ const config = {
     VISTAS,
     PUBLIC,
     UTILS,
+    INTERFACES,
     httpsOptions,
     URL_RAIZ
 }
