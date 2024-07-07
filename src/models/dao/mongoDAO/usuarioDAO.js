@@ -12,13 +12,28 @@ const usuarioSchema = new mongoose.Schema({
   tareas: [{ type: mongoose.Schema.Types.ObjectId, ref: config.DAO.modelos.tarea }] // Campo no obligatorio
 });
 
+usuarioSchema.index({ email: 1 }, { unique: true });
 const UsuarioModel = mongoose.model(config.DAO.modelos.usuario, usuarioSchema, config.DAO.modelos.usuario);
 
 class UsuarioDAO {
   async add(usuario) {
-    const usuarioModel = new UsuarioModel(usuario);
-    await usuarioModel.save();
-    return usuarioModel;
+    // const usuarioModel = new UsuarioModel(usuario);
+    const usuarioModel = new UsuarioModel({
+      nombre: usuario.nombre,
+      fechaNacimiento: usuario.fechaNacimiento,
+      email: usuario.email,
+      password: usuario.password,
+      tareas: usuario.tareas
+    });
+    try {
+      await usuarioModel.save();
+      return this.mapTo(usuarioModel);
+    } catch (error) {
+      if (error.code === 11000) {
+        // Código de error 11000 indica un error de duplicado en MongoDB
+        return null;
+      }
+    }
   }
 
   async getForId(id) {
@@ -26,7 +41,8 @@ class UsuarioDAO {
   }
 
   async getForEmail(email) {
-    return await UsuarioModel.findOne({ email: email });
+    let usuarioModel = await UsuarioModel.findOne({ email: email }).exec();
+    return this.mapTo(usuarioModel);
   }
 
   async update(usuario) {
@@ -34,17 +50,19 @@ class UsuarioDAO {
   }
 
   async delete(id) {
-      return await UsuarioModel.delete(id);
+      return await UsuarioModel.deleteOne({ _id: id });
   }
 
   // Método para mapear un documento de Mongoose a un objeto de dominio
   mapTo(usuarioModel) {
-    return new Usuario(
-      usuarioModel._id,
+    let u = new Usuario(
       usuarioModel.nombre,
+      usuarioModel.fechaNacimiento,
       usuarioModel.email,
       usuarioModel.password
     );
+    u.setId(usuarioModel._id);
+    return u;
   }
 
   // Otros métodos relacionados con usuarios

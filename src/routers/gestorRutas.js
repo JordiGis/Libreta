@@ -10,9 +10,11 @@ const ClassHomeController = require(path.join(config.CONTROLADORES, 'homeControl
 const homeController = new ClassHomeController();
 
 // Ruta raiz
-// router.get('/:path?', (req, res) => {
-//     res.send('¡Hola desde la ruta /!');
-// });
+router.get('/', (req, res) => {
+    res.send('¡Hola desde la ruta /!');
+});
+
+// ruta y sus derivados ruta/:path?'
 
 // Rutas de los Modulos
 router.get(homeController.getRuta(), homeController.index);
