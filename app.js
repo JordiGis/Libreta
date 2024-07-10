@@ -25,7 +25,7 @@ app.set('view engine', 'ejs');
 /**
  * Gestor de Rutas
  */
-const gestorRutas = require(path.join(config.RUTAS, 'gestorRutas'));
+const gestorRutas = require(path.join(config.RUTAS, 'mainRouter'));
 app.use(express.static(config.PUBLIC));
 
 // Delega la gestión de las rutas al gestorRutas

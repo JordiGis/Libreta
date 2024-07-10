@@ -34,4 +34,4 @@ class tareasRepository {
 
 }
 
-module.exports = tareasRepository;
+module.exports = new tareasRepository;

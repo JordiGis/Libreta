@@ -62,4 +62,4 @@ class usuariosRepository {
     }
 }
 
-module.exports = usuariosRepository;
+module.exports = new usuariosRepository;

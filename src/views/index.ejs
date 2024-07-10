@@ -8,15 +8,24 @@
     
     <!-- Incluir Vue.js desde un CDN -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <link rel="stylesheet" href="/css/estilo.css">
 </head>
 <body>
     <main id="app">
         <!-- Contenido de Vue irá aquí -->
         <h1>{{ message }}</h1>
         <h1>{{ titulo }}</h1>
+
+        <div class="modal" :class="{ show: isModalVisible }">
+            <div class="modal-content">
+                <p>Esta es una ventana modal</p>
+                <button @click="closeModal">Cerrar</button>
+            </div>
+        </div>
     </main>
 
     <script>
+        const SHOULD_SHOW_MODAL = true;
         // Crear una nueva instancia de Vue
         new Vue({
             // Indicar el elemento HTML donde se montará la instancia de Vue
@@ -24,7 +33,14 @@
             // Propiedades de la instancia de Vue
             data: {
                 titulo: `<%= datosParaVue.titulo %>`,
-                message: `<%= datosParaVue.mensaje %>`
+                message: `<%= datosParaVue.mensaje %>`,
+                isModalVisible: SHOULD_SHOW_MODAL
+            },
+            methods: {
+                closeModal() {
+                    this.isModalVisible = false;
+                    localStorage.setItem('modalClosed', 'true');
+                }
             }
         });
     </script>
