@@ -55,6 +55,9 @@ class Usuario {
         this.id = id;
     }
 
+    setTareas(tareas) {
+        this.tareas = tareas;
+    }
 
 }
 

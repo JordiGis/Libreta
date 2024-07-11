@@ -12,16 +12,22 @@ class homeController extends ClassController {
         console.log(result);
     }
 
-    info(req, res) {
-        let datosParaVue = {
-            titulo: "Información",
-            mensaje: "¡Hola desde la ruta /home/info!"
-        };
-        res.render(path.join(config.VISTAS, 'index'), { datosParaVue });
+    async info(req, res) {
+        let usuario = await usuariosRepository.getForEmail("juan@gestor.es");
+        console.log(usuario);
+        // let result = usuariosRepository.deleteForId(usuario.id);
+        res.json(usuario);
+
+
+        // let datosParaVue = {
+        //     titulo: "Información",
+        //     mensaje: "¡Hola desde la ruta /home/info!"
+        // };
+        // res.render(path.join(config.VISTAS, 'index'), { datosParaVue });
     }
     
     async del(req, res) {
-        let usuario = usuariosRepository.getForEmail("juan@gestor.es");
+        let usuario = await usuariosRepository.getForEmail("juan@gestor.es");
         console.log(usuario);
         // let result = usuariosRepository.deleteForId(usuario.id);
         res.json(usuario);

@@ -37,11 +37,12 @@ class UsuarioDAO {
   }
 
   async getForId(id) {
-    return await UsuarioModel.findOne({ _id: id }).exec();
+    let usuarioModel = await UsuarioModel.findOne({ _id: id }).exec();
+    return this.mapTo(usuarioModel);
   }
 
   async getForEmail(email) {
-    let usuarioModel = await UsuarioModel.findOne({ email: email }).exec();
+    let usuarioModel = await UsuarioModel.findOne({ email: email }).exec();;
     return this.mapTo(usuarioModel);
   }
 
@@ -62,6 +63,7 @@ class UsuarioDAO {
       usuarioModel.password
     );
     u.setId(usuarioModel._id);
+    u.setTareas(usuarioModel.tareas);
     return u;
   }
 
