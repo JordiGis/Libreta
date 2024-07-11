@@ -47,7 +47,18 @@ class UsuarioDAO {
   }
 
   async update(usuario) {
-    return await UsuarioModel.findByIdAndUpdate(usuario.id, usuario, { new: true })
+    return await UsuarioModel.updateOne(
+      { _id: usuario.id },
+      {
+        $set: { 
+          "nombre": usuario.nombre,
+          "fechaNacimiento": usuario.fechaNacimiento,
+          "password": usuario.password,
+          "tareas": usuario.tareas
+        },
+      }
+  );
+  
   }
 
   async delete(id) {
@@ -62,7 +73,7 @@ class UsuarioDAO {
       usuarioModel.email,
       usuarioModel.password
     );
-    u.setId(usuarioModel._id);
+    u.setId(usuarioModel.id);
     u.setTareas(usuarioModel.tareas);
     return u;
   }

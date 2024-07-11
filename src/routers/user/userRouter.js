@@ -14,6 +14,9 @@ router.get('/', (req, res) => homeController.raiz(req, res));
 
 router.get('/info', (req, res) => homeController.info(req, res));
 
+router.get('/up', (req, res) => homeController.up(req, res));
+
 router.get('/del', (req, res) => homeController.del(req, res));
+
 
 module.exports = router;

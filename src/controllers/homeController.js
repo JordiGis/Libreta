@@ -25,13 +25,21 @@ class homeController extends ClassController {
         // };
         // res.render(path.join(config.VISTAS, 'index'), { datosParaVue });
     }
+
+    async up(req, res) {
+        let usuario = new Usuario("Pepito", new Date(), "juan@gestor.es", "1234");
+        console.log(usuario);
+        let result = usuariosRepository.update(usuario);
+        // res.json(usuario);
+        res.send(result);
+    }
     
     async del(req, res) {
         let usuario = await usuariosRepository.getForEmail("juan@gestor.es");
         console.log(usuario);
-        // let result = usuariosRepository.deleteForId(usuario.id);
-        res.json(usuario);
-        // res.send(result);
+        let result = usuariosRepository.deleteForId(usuario.id);
+        // res.json(usuario);
+        res.send(result);
     }
 
 

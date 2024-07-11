@@ -1,5 +1,6 @@
 const path = require('path');
 const config = require('../../config');
+const { get } = require('http');
 const usuarioDAO = require(path.join(config.DAO.path, 'usuarioDAO'));
 const Usuario = require(path.join(config.MODELOS, 'usuario'));
 
@@ -40,6 +41,10 @@ class usuariosRepository {
      * @returns 
      */
     async update(usuario) {
+        if (usuario.id == null) {
+            let u = await this.getForEmail(usuario.email);
+            usuario.id = u.id;
+        }
         return await usuarioDAO.update(usuario);
     }
 
