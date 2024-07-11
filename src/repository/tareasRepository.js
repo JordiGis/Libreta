@@ -1,5 +1,6 @@
 const path = require('path');
-const config = require('../../config');
+require('dotenv').config();
+const config = require(process.env.PATH_CONFIG);
 const tareaDAO = require(path.join(config.DAO.path, 'tareaDAO'));
 
 

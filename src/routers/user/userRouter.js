@@ -3,7 +3,8 @@ const express =  require('express');
 const router = express.Router();
 
 const path = require('path');
-const config = require('../../../config');
+require('dotenv').config();
+const config = require(process.env.PATH_CONFIG);
 
 // Controlador
 const homeController = require(path.join(config.CONTROLADORES, 'homeController'));

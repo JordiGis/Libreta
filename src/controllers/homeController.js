@@ -1,5 +1,6 @@
 const path = require('path');
-const config = require('../../config');
+require('dotenv').config();
+const config = require(process.env.PATH_CONFIG);
 const ClassController = require(path.join(config.INTERFACES, 'controller'));
 const Usuario = require(path.join(config.MODELOS, 'usuario'));
 const usuariosRepository = require(path.join(config.REPOSITORY, 'usuariosRepository'));

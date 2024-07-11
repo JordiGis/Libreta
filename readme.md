@@ -81,6 +81,15 @@ const NAME_CERT = 'local.pem';
 ```
 Cambiar los nombre en caso de ser necesario.
 
+Tambien hay que poner la ruta abasoluta del archivo `config.js` en el archivo `.env` con el nombre `PATH_CONFIG`.
+De esa forma todos los archivos JavaScript acederan de forma facil, dando igual la estructura del proyecto.
+```js
+require('dotenv').config();
+const config = require(process.env.PATH_CONFIG);
+```
+Con esas dos lineas se accede a la configuración de la aplicación.
+
+
 ### Añadir Base de Datos
 Esta todo preparado para el uso de MongoDB y MongoOse, para que la palicación este funcionando a pleno rendimiento hara falta establecer conexión con una base de datos, lo mas recomendable para la facil implementación es poner la String de conexión en un archivo `.env` con el nombre `MONGODB_URI`.
 En caso de que todo este bien cuando se levante el servidor se implimirar por terminal un mensaje indicandolo.

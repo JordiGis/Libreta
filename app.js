@@ -8,7 +8,8 @@ const https = require('https');
 const path = require('path');
 
 // Importamos el módulo 'config' para poder acceder a las configuraciones
-const config = require('./config');
+require('dotenv').config();
+const config = require(process.env.PATH_CONFIG);
 
 // Importamos la Base de Datos
 const db = require(path.join(config.DB, 'db'));

@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const config = require('../../config');
+require('dotenv').config();
+const config = require(process.env.PATH_CONFIG);
 
 const userRouter = require(`${config.RUTAS}/user/userRouter`);
+const logInRouter = require(`${config.RUTAS}/user/logIn/logInRouter`);
 
 // Ruta raiz
 router.get('/', (req, res) => {
@@ -12,6 +14,9 @@ router.get('/', (req, res) => {
 
 // ruta y sus derivados ruta/:path?'
 router.use('/home', userRouter);
+
+// ruta y sus derivados ruta/:path?'
+router.use('/login', logInRouter);
 
 // Exportar el módulo
 module.exports = router;
