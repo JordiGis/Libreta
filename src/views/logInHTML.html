@@ -38,7 +38,6 @@
                 padding: 0 20px 20px 20px;
                 border-radius: 0 0 10px 10px;
                 margin: 10px 0;
-                cursor: pointer;
                 transition: 0.3s;
                 grid-column: 1 / 3;
                 grid-row: 2;
@@ -57,9 +56,10 @@
 
 
 
-                input{
+                button{
                     border: none;
                     margin: 0;
+                    padding: 5px;
                     background-color: #3c3c3c;
                     border-bottom: 5px solid #3c3c3c;
                     color: white;
@@ -69,11 +69,15 @@
                 
                 }
 
-                input#LogIn{
+                button:focus{
+                    outline: none;
+                }
+
+                button#LogIn{
                     border-radius: 10px 0 0 0;
                 }
 
-                input#SignUp{
+                button#SignUp{
                     border-radius: 0 10px 0 0;
                 }
 
@@ -89,68 +93,97 @@
 
             }
 
-            input{
-                width: 100%;
-                padding: 10px;
-                margin: 10px 0;
-                border: none;
-                background-color: #3c3c3c;
-                color: white;
-                border-bottom: white 1px solid;
-                transition: all 0.5s;
-            }
+            
 
-            input[type="date"].vacio{
-                color: #75756e;
-            }
-
-            input[type="date"]::-webkit-calendar-picker-indicator {
-                filter: invert(1);
-            }
-
-            input[pass]{
-                padding: 10px 30px 10px 10px;
-            }
-
-            input:focus{
-                outline: none;
-                border-bottom: 1px solid #007bff;
-            }
-
-            input:hover{
-                border-bottom: 1px solid #005abb;
-            }
-
-            input[type="submit"]{
-                width: 100%;
-                padding: 10px;
-                margin: 10px 0;
-                border-radius: 5px;
-                border: none;
-                background-color: #007bff;
-                color: white;
-                transition: all 0.5s;
-            }
-
-            input[type="submit"]:hover{
-                background-color: #005abb;
-            }
-
-            div {
+            div.registros {
                 height: 50px;
                 margin: 10px 0 10px 0;
+                display: grid;
+                grid-template-columns: 0.5fr 1fr 40px 10px;
+                align-items: center;
+
+                label{
+                    grid-column: 1;
+                    color: white;
+                    font-size: 16px;
+                }
+
+                input{
+                    grid-column: 2;
+                    width: 100%;
+                    grid: 10px;
+                    margin: 10px 0;
+                    border: none;
+                    background-color: #3c3c3c;
+                    color: white;
+                    border-bottom: white 1px solid;
+                    transition: all 0.5s;
+                }
+
+                input[type="date"].vacio{
+                    color: #75756e;
+                }
+
+                input[type="date"]::-webkit-calendar-picker-indicator {
+                    filter: invert(1);
+                    font-size: 20px;
+                }
+
+                /* input[pass]{
+                    padding: 10px 40px 10px 10px;
+                } */
+
+                input:focus{
+                    outline: none;
+                    border-bottom: 1px solid #007bff;
+                }
+
+                input:hover{
+                    border-bottom: 1px solid #005abb;
+                }
+
+                input[type="submit"]{
+                    grid-column: 1 / 10;
+                    width: 100%;
+                    padding: 10px;
+                    margin: 10px 0;
+                    border-radius: 5px;
+                    border: none;
+                    background-color: #007bff;
+                    color: white;
+                    transition: all 0.5s;
+                }
+
+                input[type="submit"]:hover{
+                    background-color: #005abb;
+                }
+
+                .requerido{
+                    grid-column: 4;
+                    color: red;
+                    font-size: 20px;
+                    /* position: relative;
+                    left: -10px; */
+                    transition: all 0.5s;
+                    transform-origin: 0px 10px;
+                }
+
+                .requerido.cumplido{
+                    transform: scale(0);
+                }
+
+                div.ojos{
+                    grid-column: 3;
+                    height: 20px;
+                    width: 20px;
+                    font-size: 20px;
+                    margin: 0 10px 25px 10px;                
+                    color: white;
+                    cursor: pointer;
+                }
             }
 
-            div#ojos{
-                height: 20px;
-                width: 20px;
-                margin: 0;
-                position: relative;
-                left: calc(100% - 28px);
-                bottom: 46px;
-                color: white;
-                cursor: pointer;
-            }
+            
 
 
 
@@ -166,34 +199,43 @@
 
         <section>
             <article id="modo">
-                <input id="LogIn" type="button" @click="switchLogIn" value="LogIn">
-                <input id="SignUp" class="modoAleternativo" type="button" @click="switchSignUp" value="SignUp">
+                <button id="LogIn" type="button" @click="switchLogIn">LogIn</button>
+                <button id="SignUp" class="modoAleternativo" type="button" @click="switchSignUp">SignUp</button>
             </article>
             <article>
                 <form action="#" method="post">
 
-                    <div v-for="(input, index) in model">
-                        <input 
+                    <div v-for="(input, index) in model" class="registros">
+                        <label 
+                        v-if="input.type !== 'submit'"
+                        :for="input.name">
+                            {{ label(input.placeholder) }} 
+                        </label>
+                        <input
+                            
                             :type="input.type"
-                            :name="input.name" 
+                            :name="input.name"
+                            :id="input.name"
                             :value="input.value" 
                             v-model="input.value" 
-                            :class="{'vacio': input.type === 'date' && !input.value}"
                             :pass="input.pass || input.type === 'password'"
-                            :placeholder="input.placeholder">
-
-                        <div id="ojos"  v-show="input.type === 'password' || input.pass != null">
+                            :placeholder="input.placeholder"
+                            :requerido="input.required"
+                        >
+                        
+                        <div class="ojos"  v-if="input.type === 'password' || input.pass != null">
                             <svg class="esconder" 
-                                v-show="input.pass" 
+                                v-if="input.pass" 
                                 @click="visivilidadPassword(index)" 
                                 xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M2 5.27L3.28 4L20 20.72L18.73 22l-3.08-3.08c-1.15.38-2.37.58-3.65.58c-5 0-9.27-3.11-11-7.5c.69-1.76 1.79-3.31 3.19-4.54zM12 9a3 3 0 0 1 3 3a3 3 0 0 1-.17 1L11 9.17A3 3 0 0 1 12 9m0-4.5c5 0 9.27 3.11 11 7.5a11.8 11.8 0 0 1-4 5.19l-1.42-1.43A9.86 9.86 0 0 0 20.82 12A9.82 9.82 0 0 0 12 6.5c-1.09 0-2.16.18-3.16.5L7.3 5.47c1.44-.62 3.03-.97 4.7-.97M3.18 12A9.82 9.82 0 0 0 12 17.5c.69 0 1.37-.07 2-.21L11.72 15A3.064 3.064 0 0 1 9 12.28L5.6 8.87c-.99.85-1.82 1.91-2.42 3.13"/>
                             </svg>
                             <svg class="mostrar" 
-                                v-show="input.type === 'password' || !input.pass" 
+                                v-if="input.type === 'password' || !input.pass" 
                                 @click="visivilidadPassword(index)" 
                                 xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 9a3 3 0 0 1 3 3a3 3 0 0 1-3 3a3 3 0 0 1-3-3a3 3 0 0 1 3-3m0-4.5c5 0 9.27 3.11 11 7.5c-1.73 4.39-6 7.5-11 7.5S2.73 16.39 1 12c1.73-4.39 6-7.5 11-7.5M3.18 12a9.821 9.821 0 0 0 17.64 0a9.821 9.821 0 0 0-17.64 0"/>
                             </svg>
                         </div>
+                        <div v-if="input.required" class="requerido">*</div>
                     </div>
                 </form>
             </article>
@@ -215,17 +257,15 @@
                 LogIn: document.querySelector('#LogIn'),
                 SignUp: document.querySelector('#SignUp'),
                 modelLogIn: [
-                    {name: 'name', type: "text", placeholder: 'Name'},
-                    {name: 'password', type: "password", pass: false, placeholder: 'Password'},
-                    {name: 'fechaNacimiento', type: "date", value: ""},
+                    {name: 'name', type: "text", placeholder: 'Name', required: true},
+                    {name: 'password', type: "password", pass: false, placeholder: 'Password', required: true},
                     {type: "submit", value: 'Log In'},
                 ],
-                modelSingUp: [
-                    {name: 'name', type: "text", placeholder: 'Name'},
-                    {name: 'fechaNacimiento', type: "date", value: ""},
-                    {name: 'email', type: "email", placeholder: 'Email'},
-                    {name: 'password', type: "password", pass: false, placeholder: 'Password'},
-                    {name: 'passwordConf', pass: false, placeholder: 'Repeat Password'},
+                modelSignUp: [
+                    {name: 'name', type: "text", placeholder: 'Name', required: true},
+                    {name: 'email', type: "email", placeholder: 'Email', required: true},
+                    {name: 'password', type: "password", pass: false, placeholder: 'Password', required: true},
+                    {name: 'passwordConf', type: "password", pass: false, placeholder: 'Repeat Password', required: true},
                     {type: "submit", value: 'Sign Up'},
                 ],
                 model: []
@@ -240,9 +280,12 @@
                     LogIn.classList.remove('modoAleternativo');
                 },
                 switchSignUp(){
-                    this.model = this.modelSingUp;
+                    this.model = this.modelSignUp;
                     LogIn.classList.add('modoAleternativo');
                     SignUp.classList.remove('modoAleternativo');
+                },
+                label(placeholder) {
+                    return placeholder + ':';
                 },
                 visivilidadPassword(index) {
                     this.model[index].type = this.model[index].type === 'password' ? 'text' : 'password';
