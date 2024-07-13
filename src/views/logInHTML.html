@@ -108,6 +108,10 @@
                 filter: invert(1);
             }
 
+            input[pass]{
+                padding: 10px 30px 10px 10px;
+            }
+
             input:focus{
                 outline: none;
                 border-bottom: 1px solid #007bff;
@@ -143,8 +147,9 @@
                 margin: 0;
                 position: relative;
                 left: calc(100% - 28px);
-                bottom: 40px;
+                bottom: 46px;
                 color: white;
+                cursor: pointer;
             }
 
 
@@ -174,6 +179,7 @@
                             :value="input.value" 
                             v-model="input.value" 
                             :class="{'vacio': input.type === 'date' && !input.value}"
+                            :pass="input.pass || input.type === 'password'"
                             :placeholder="input.placeholder">
 
                         <div id="ojos"  v-show="input.type === 'password' || input.pass != null">
@@ -210,7 +216,7 @@
                 SignUp: document.querySelector('#SignUp'),
                 modelLogIn: [
                     {name: 'name', type: "text", placeholder: 'Name'},
-                    {name: 'password', type: "password", placeholder: 'Password'},
+                    {name: 'password', type: "password", pass: false, placeholder: 'Password'},
                     {name: 'fechaNacimiento', type: "date", value: ""},
                     {type: "submit", value: 'Log In'},
                 ],
@@ -218,8 +224,8 @@
                     {name: 'name', type: "text", placeholder: 'Name'},
                     {name: 'fechaNacimiento', type: "date", value: ""},
                     {name: 'email', type: "email", placeholder: 'Email'},
-                    {name: 'password', type: "password", placeholder: 'Password'},
-                    {name: 'passwordConf', placeholder: 'Repeat Password'},
+                    {name: 'password', type: "password", pass: false, placeholder: 'Password'},
+                    {name: 'passwordConf', pass: false, placeholder: 'Repeat Password'},
                     {type: "submit", value: 'Sign Up'},
                 ],
                 model: []
