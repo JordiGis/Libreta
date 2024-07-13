@@ -9,7 +9,7 @@ class homeController extends ClassController {
             titulo: "Información",
             mensaje: "¡Hola desde la ruta /home/info!"
         };
-        res.render(path.join(config.VISTAS, 'index'), { datosParaVue });
+        res.render(path.join(config.VISTAS, 'logIn'), { datosParaVue });
     }
 
 

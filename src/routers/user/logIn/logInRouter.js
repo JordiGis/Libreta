@@ -11,5 +11,6 @@ const logInController = require(path.join(config.CONTROLADORES, 'logInController
 
 // Ruta GET para obtener todos los usuarios
 router.get('/', (req, res) => logInController.raiz(req, res));
+// router.get('/', (req, res) => logInController.raiz(req, res));
 
 module.exports = router;
