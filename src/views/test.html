@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animación de Botón en Vue</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+ 
+    <style>
+        form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+        }
+
+        input {
+        margin-bottom: 20px;
+        padding: 10px;
+        font-size: 16px;
+        }
+
+        button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: transform 0.5s, opacity 0.5s;
+        }
+
+        .btn-moving {
+        transform: translateX(300px);
+        }
+
+        .btn-returning {
+        transform: translateY(50px);
+        opacity: 0;
+        }
+
+        .btn-submit {
+        position: relative;
+        }
+
+
+    </style>
+</head>
+<body>
+  <div id="app">
+    <form @submit.prevent="handleSubmit">
+      <div>
+        <input type="text" v-model="formData.input" placeholder="Introduce algo">
+      </div>
+      <button
+        type="submit"
+        :class="{'btn-submit': true, 'btn-moving': isMoving, 'btn-returning': isReturning}"
+        :disabled="isSubmitting"
+      >
+        <span v-if="!isSubmitted">Enviar</span>
+        <span v-else>&#10003;</span>
+      </button>
+    </form>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script>
+
+new Vue({
+  el: '#app',
+  data: {
+    formData: {
+      input: ''
+    },
+    isMoving: false,
+    isReturning: false,
+    isSubmitting: false,
+    isSubmitted: false
+  },
+  methods: {
+    handleSubmit() {
+      if (this.validateForm()) {
+        this.isSubmitting = true;
+        this.isMoving = true;
+        setTimeout(() => {
+          this.isMoving = false;
+          this.isReturning = true;
+          this.isSubmitted = true;
+          setTimeout(() => {
+            this.isReturning = false;
+            this.isSubmitting = false;
+          }, 500);
+        }, 500);
+      }
+    },
+    validateForm() {
+      return this.formData.input.trim() !== '';
+    }
+  }
+});
+
+
+  </script>
+</body>
+</html>
