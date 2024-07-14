@@ -61,42 +61,79 @@
   </div>
   
   <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-  <script>
+<script>
+    let vue = new Vue({
+        el: '#app',
+        data: {
+            LogIn: document.querySelector('#LogIn'),
+            SignUp: document.querySelector('#SignUp'),
+            modelLogIn: [
+                {name: 'name', type: "text", placeholder: 'Name', required: true},
+                {name: 'password', type: "password", pass: false, placeholder: 'Password', required: true},
+            ],
+            modelSignUp: [
+                {name: 'name', type: "text", placeholder: 'Name', required: true},
+                {name: 'email', type: "email", placeholder: 'Email', required: true},
+                {name: 'password', type: "password", pass: false, placeholder: 'Password', required: true},
+                {name: 'passwordConf', type: "password", pass: false, placeholder: 'Repeat Password', required: true},
+            ],
+            model: [],
+            isMoving: false,
+            isReturning: false,
+            isSubmitting: false,
+            isSubmitted: false
+        },
+        created() {
+            this.model = this.modelLogIn;
+        },
+        methods: {
+            switchLogIn(){
+                this.model = this.modelLogIn;
+                SignUp.classList.add('modoAleternativo');
+                LogIn.classList.remove('modoAleternativo');
+            },
+            switchSignUp(){
+                this.model = this.modelSignUp;
+                LogIn.classList.add('modoAleternativo');
+                SignUp.classList.remove('modoAleternativo');
+            },
+            label(placeholder) {
+                return placeholder + ':';
+            },
+            visivilidadPassword(index) {
+                this.model[index].type = this.model[index].type === 'password' ? 'text' : 'password';
+                this.model[index].pass = this.model[index].type === 'password' ? false : true;
+            },
+            validateForm() {
+                return this.model.every(input => input.required ? input.value.trim() !== '' : true);
+            },
+            handleSubmit(event) {
+                event.preventDefault();
+                if (this.validateForm()) {
+                    this.blockScroll();
+                    this.isSubmitting = true;
+                    this.isMoving = true;
+                    setTimeout(() => {
+                        this.isMoving = false;
+                        this.isReturning = true;
+                        this.isSubmitted = true;
+                        setTimeout(() => {
+                            this.isReturning = false;
+                            this.isSubmitting = false;
+                            this.unblockScroll();
+                        }, 500);
+                    }, 500);
+                }
+            },
+            blockScroll() {
+                document.body.style.overflow = 'hidden';
+            },
+            unblockScroll() {
+                document.body.style.overflow = '';
+            }
+        }
+    });
+</script>
 
-new Vue({
-  el: '#app',
-  data: {
-    formData: {
-      input: ''
-    },
-    isMoving: false,
-    isReturning: false,
-    isSubmitting: false,
-    isSubmitted: false
-  },
-  methods: {
-    handleSubmit() {
-      if (this.validateForm()) {
-        this.isSubmitting = true;
-        this.isMoving = true;
-        setTimeout(() => {
-          this.isMoving = false;
-          this.isReturning = true;
-          this.isSubmitted = true;
-          setTimeout(() => {
-            this.isReturning = false;
-            this.isSubmitting = false;
-          }, 500);
-        }, 500);
-      }
-    },
-    validateForm() {
-      return this.formData.input.trim() !== '';
-    }
-  }
-});
-
-
-  </script>
 </body>
 </html>
