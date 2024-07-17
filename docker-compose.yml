@@ -2,7 +2,7 @@ version: '3.8'
 services:
   app:
     build: .
-    env_file:
-      - .env
     ports:
       - "443:443"
+    volumes:
+      - .:/app

@@ -1,22 +1,23 @@
-# Dockerfile
-FROM node:14
+# Usa una imagen de Node.js como base
+FROM node:20
+
+# Crear directorio de la aplicación
+RUN mkdir -p /app
 
 # Crear directorio de la aplicación
 WORKDIR /app
 
-# Instalar las dependencias de la aplicación
+# Copia los archivos de tu proyecto al directorio de trabajo
 COPY package*.json ./
+
+# Instala las dependencias del proyecto
 RUN npm install
 
-# Copiar el código de la aplicación
+# Copia todos los archivos al directorio de trabajo (puedes ajustar esto según tu estructura de carpetas)
 COPY . .
 
-# Definir la variable de entorno en el contenedor
-ENV MONGODB_URI=$MONGODB_URI
-ENV PATH_CONFIG=$PATH_CONFIG
-
-# Exponer el puerto
+# Expone el puerto 3000 (o el puerto que uses para tu aplicación)
 EXPOSE 443
 
-# Comando para correr la aplicación
-CMD [ "node", "app.js" ]
+# Comando para ejecutar la aplicación
+CMD ["node", "app.js"]
