@@ -20,4 +20,4 @@ COPY . .
 EXPOSE 443 9229
 
 # Comando para ejecutar la aplicación
-CMD ["npm", "dev"]
+CMD ["npm", "start"]
