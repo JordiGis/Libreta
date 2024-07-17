@@ -17,7 +17,7 @@ RUN npm install
 COPY . .
 
 # Expone el puerto 3000 (o el puerto que uses para tu aplicación)
-EXPOSE 443
+EXPOSE 443 9229
 
 # Comando para ejecutar la aplicación
-CMD ["node", "app.js"]
+CMD ["npm", "dev"]
