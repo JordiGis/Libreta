@@ -3,17 +3,17 @@ const path = require('path');
 const config = require(process.env.PATH_CONFIG);
 const ClassController = require(path.join(config.INTERFACES, 'controller'));
 
-class homeController extends ClassController {
+class logInController extends ClassController {
     async raiz(req, res) {
-        let datosParaVue = {
-            titulo: "Información",
-            mensaje: "¡Hola desde la ruta /home/info!"
+        let log = {
+            nombre: "test",
+            email: "test@test"
         };
-        res.render(path.join(config.VISTAS, 'logIn'), { datosParaVue });
+        res.render(path.join(config.VISTAS, 'logInHTML'), { log });
     }
 
 
     
 }
 
-module.exports = new homeController;
+module.exports = new logInController;
