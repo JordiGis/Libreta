@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 require('dotenv').config();
-const config = require(process.env.PATH_CONFIG);
+const config = require('/app/config.js');
 
 const userRouter = require(`${config.RUTAS}/user/userRouter`);
 const logInRouter = require(`${config.RUTAS}/user/logIn/logInRouter`);

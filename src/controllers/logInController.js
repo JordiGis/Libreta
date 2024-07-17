@@ -1,6 +1,6 @@
 require('dotenv').config();
 const path = require('path');
-const config = require(process.env.PATH_CONFIG);
+const config = require('/app/config.js');
 const ClassController = require(path.join(config.INTERFACES, 'controller'));
 
 class logInController extends ClassController {

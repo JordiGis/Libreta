@@ -4,7 +4,7 @@ const router = express.Router();
 
 const path = require('path');
 require('dotenv').config();
-const config = require(process.env.PATH_CONFIG);
+const config = require('/app/config.js');
 
 // Controlador
 const homeController = require(path.join(config.CONTROLADORES, 'homeController'));

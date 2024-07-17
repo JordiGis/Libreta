@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const path = require('path');
 require('dotenv').config();
-const config = require(process.env.PATH_CONFIG);
+const config = require('/app/config.js');
 const Usuario = require(path.join(config.MODELOS, 'usuario'));
 
 // Definición del esquema del usuario para Mongoose

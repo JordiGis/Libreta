@@ -1,6 +1,6 @@
 const path = require('path');
 require('dotenv').config();
-const config = require(process.env.PATH_CONFIG);
+const config = require('/app/config.js');
 const { get } = require('http');
 const usuarioDAO = require(path.join(config.DAO.path, 'usuarioDAO'));
 const Usuario = require(path.join(config.MODELOS, 'usuario'));
