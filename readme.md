@@ -19,7 +19,7 @@ Archivo principal de la aplicación, que se encarga de inicializar el servidor.
 ### `config.js`
 Almacena la configuración de la aplicación, como la URL raíz, los certificados, etc.
 
-#### `certs/`
+### `certs/`
 Almacena los certificados para SSL teniendo HTTS.
 
 ### `node_modules/`
@@ -60,6 +60,10 @@ Almacena las interfaces de la aplicación, que se encargan de definir la estruct
 
 #### `src/utils/`
 Almacena las utilidades de la aplicación, que se encargan de realizar tareas auxiliares.
+
+### Esquema DB
+![esquema](./doc/esquemaDB.png)
+
 
 ## Implementación
 ### Cloner Repositorio
