@@ -17,6 +17,8 @@ router.use('/home', userRouter);
 
 // ruta y sus derivados ruta/:path?'
 router.use('/login', logInRouter);
+router.use('/signup', logInRouter);
+
 
 router.use((req, res) => {
     res.status(404).send('Ruta no encontrada');

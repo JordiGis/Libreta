@@ -119,26 +119,14 @@ main{
                         border-bottom: 1px solid #005abb;
                     }
 
-                    .requerido{
-                        grid-column: 4;
-                        color: red;
-                        font-size: 20px;
-                        /* position: relative;
-                        left: -10px; */
-                        transition: all 0.5s;
-                        transform-origin: 0px 10px;
-                    }
-
-                    .requerido.cumplido{
-                        transform: scale(0);
-                    }
+                    
 
                     div.ojos{
                         grid-column: 3;
                         height: 20px;
                         width: 20px;
                         font-size: 20px;
-                        margin: 0 10px 25px 10px;                
+                        margin: 0 10px 15px 10px;                
                         color: white;
                         cursor: pointer;
                     }
@@ -185,3 +173,40 @@ main{
 
     }
 }
+
+/* Class */
+.requerido{
+    grid-column: 4;
+    color: red;
+    font-size: 20px;
+    /* position: relative;
+    left: -10px; */
+    transition: all 0.5s;
+    transform-origin: 0px 10px;
+}
+
+.requerido.cumplido{
+    transform: scale(0);
+}
+
+.rotate-plus-45 {
+    transform: rotate(45deg);
+}
+
+/* Animación cuando el elemento aparece */
+.fade-enter-active {
+    transition: opacity 0.5s ease-in; /* Ajusta la duración y la función de tiempo según tus preferencias */
+}
+.fade-enter {
+    opacity: 0;
+}
+  
+/* Animación cuando el elemento desaparece */
+.fade-leave-active {
+    transition: opacity 0.5s ease-out; /* Ajusta la duración y la función de tiempo según tus preferencias */
+}
+.fade-leave-to /* .fade-leave-active en versiones <2.1.8 */ {
+    opacity: 0;
+}
+  
+  

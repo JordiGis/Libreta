@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    
+    <!-- Local -->
+    <link rel="stylesheet" href="../public/css/acceso.css">
+    <link rel="stylesheet" href="../public/css/estilo.css">
+        <!-- Bootstrap -->
+    <link rel="stylesheet" href="../public/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../public/bootstrap/icons/bootstrap-icons.css">
+
+    <!-- Web -->
+    <link rel="stylesheet" href="/css/estilo.css">
+    <link rel="stylesheet" href="/css/acceso.css">
+        <!-- Bootstrap -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap/icons/bootstrap-icons.css">
+
+
+
+</head>
+<body>
+    
+    <main id="app">
+        <header>
+            <h1>Libreta</h1>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-house-fill"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="bi bi-list"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <section>
+            <article id="modo">
+                <button id="LogIn" type="button" @click="switchLogIn">LogIn</button>
+                <button id="SignUp" class="modoAleternativo" type="button" @click="switchSignUp">SignUp</button>
+            </article>
+            <article>
+                <form @submit="handleSubmit">
+                    <transition name="fade" v-for="(input, index) in model">
+                        <div class="registro" v-if="!isMoving">
+                            <label v-if="input.type !== 'submit'" :for="input.name">
+                                {{ label(input.placeholder) }} 
+                            </label>
+                            <input
+                                :type="input.type"
+                                :name="input.name"
+                                :id="input.name"
+                                :value="input.value" 
+                                v-model="input.value" 
+                                :pass="input.pass || input.type === 'password'"
+                                :placeholder="input.placeholder"
+                                :requerido="input.required"
+                            >
+                            <div class="ojos" v-if="input.type === 'password' || input.pass != null">
+                                <i class="bi bi-eye-slash" v-if="input.pass" @click="visivilidadPassword(index)"></i>
+                                <i class="bi bi-eye" v-if="input.type === 'password' || !input.pass" @click="visivilidadPassword(index)" class=""></i>
+                            </div>
+                            <span v-if="input.required" class="requerido">*</span>
+                        </div>
+                    </transition>
+                    <button type="submit" :class="{'btn-moving': isMoving, 'btn-returning': isReturning}" :disabled="isSubmitting">
+                        <i v-if="!isSubmitted" class="bi bi-send-fill"></i>
+                        <i v-if="isSubmitted" class="bi bi-send-check-fill rotate-plus-45"></i>
+                    </button>
+                </form>
+            </article>
+            
+            
+           
+
+
+
+
+        </section>
+
+
+    </main>
+
+    <script>
+        let vue = new Vue({
+            el: '#app',
+            data: {
+                LogIn: document.querySelector('#LogIn'),
+                SignUp: document.querySelector('#SignUp'),
+                accion: `<%= paramas.accion %>`,
+                modelLogIn: [
+                    {name: 'name', type: "text", value: `<%= paramas.nombre %>`, placeholder: 'Name', required: true},
+                    {name: 'password', type: "password", pass: false, placeholder: 'Password', required: true},
+                ],
+                modelSignUp: [
+                    {name: 'name', type: "text", value: `<%= paramas.nombre %>`, placeholder: 'Name', required: true},
+                    {name: 'email', type: "email", value: `<%= paramas.email %>`, placeholder: 'Email', required: true},
+                    {name: 'password', type: "password", pass: false, placeholder: 'Password', required: true},
+                    {name: 'passwordConf', type: "password", pass: false, placeholder: 'Repeat Password', required: true},
+                ],
+                model: [],
+                isMoving: false,
+                isReturning: false,
+                isSubmitting: false,
+                isSubmitted: false
+            },
+            created() {
+                this.model = this.modelLogIn;
+                if (this.accion === 'signUp') {
+                    this.switchSignUp();
+                }else if (this.accion === 'logIn') {
+                    this.switchLogIn();
+                }
+            },
+            methods: {
+                switchLogIn(){
+                    this.model = this.modelLogIn;
+                    SignUp.classList.add('modoAleternativo');
+                    LogIn.classList.remove('modoAleternativo');
+                },
+                switchSignUp(){
+                    this.model = this.modelSignUp;
+                    LogIn.classList.add('modoAleternativo');
+                    SignUp.classList.remove('modoAleternativo');
+                },
+                label(placeholder) {
+                    return placeholder + ':';
+                },
+                visivilidadPassword(index) {
+                    this.model[index].type = this.model[index].type === 'password' ? 'text' : 'password';
+                    this.model[index].pass = this.model[index].type === 'password' ? false : true;
+                },
+                validateForm() {
+                    return this.model.every(input => input.required ? input.value.trim() !== '' : true);
+                },
+                handleSubmit(event) {
+                    event.preventDefault();
+                    if (this.validateForm()) {
+                        this.isSubmitting = true;
+                        this.isMoving = true;
+                        setTimeout(() => {
+                            this.isReturning = true;
+                            this.isSubmitted = true;
+                            setTimeout(() => {
+                                this.blockScroll();
+                                this.isReturning = false;
+                                this.isSubmitting = false;
+                                this.unblockScroll();
+                            }, 1000);
+                            this.isMoving = false;
+                        }, 1000);
+                    }
+                },
+                blockScroll() {
+                    // document.body.style.overflowY = 'hidden';
+                    // document.body.style.scrollbar = 'hidden';
+                    // document.body.style.scrollbarWidth = '0';
+
+                },
+                unblockScroll() {
+                    // document.body.style.overflowY = '';
+                    // document.body.style.scrollbarWidth = '';
+                }
+            },
+            
+        });
+    </script>
+    
+    
+</body>
+</html>
