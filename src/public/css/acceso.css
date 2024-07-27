@@ -195,18 +195,29 @@ main{
 
 /* Animación cuando el elemento aparece */
 .fade-enter-active {
-    transition: opacity 0.5s ease-in; /* Ajusta la duración y la función de tiempo según tus preferencias */
+    transition: opacity 0.3s ease-in;
 }
 .fade-enter {
     opacity: 0;
 }
-  
+
 /* Animación cuando el elemento desaparece */
 .fade-leave-active {
-    transition: opacity 0.5s ease-out; /* Ajusta la duración y la función de tiempo según tus preferencias */
+    transition: opacity 0.3s ease-out;
 }
 .fade-leave-to /* .fade-leave-active en versiones <2.1.8 */ {
     opacity: 0;
 }
-  
+
+/* Añadido para la animación secuencial */
+.stagger-fade-enter-active {
+    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
+    transition-delay: var(--fade-delay, 0s);
+    transform: translateY(0);
+}
+.stagger-fade-enter {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
   

@@ -47,27 +47,33 @@
             </article>
             <article>
                 <form @submit="handleSubmit" :action="model.action" method="post">
-                    <transition-group name="fade" tag="div">
-                        <div v-for="(input, index) in model.inputs" :key="`input-${input.name}-${index}`" class="registro" v-show="isSubmittedFail || !isSubmitted">
-                            <label v-if="input.type !== 'submit'" :for="input.name">
-                                {{ label(input.placeholder) }} 
-                            </label>
-                            <input
-                                :type="input.type"
-                                :name="input.name"
-                                :id="input.name"
-                                :value="input.value" 
-                                v-model="input.value" 
-                                :placeholder="input.placeholder"
-                                :required="input.required"
-                            >
-                            <div class="ojos" v-if="input.type === 'password' || input.pass != null">
-                                <i class="bi bi-eye-slash" v-if="input.pass" @click="visibilidadPassword(index)"></i>
-                                <i class="bi bi-eye" v-if="!input.pass" @click="visibilidadPassword(index)"></i>
-                            </div>
-                            <span v-if="input.required" class="requerido">*</span>
+                    <transition-group name="stagger-fade" tag="div">
+                        <div
+                          v-for="(input, index) in model.inputs"
+                          :key="`input-${input.name}-${index}`"
+                          class="registro"
+                          v-show="isSubmittedFail || !isSubmitted"
+                          :style="{ '--fade-delay': getFadeDelay(index) }"
+                        >
+                          <label v-if="input.type !== 'submit'" :for="input.name">
+                            {{ label(input.placeholder) }} 
+                          </label>
+                          <input
+                            :type="input.type"
+                            :name="input.name"
+                            :id="input.name"
+                            :value="input.value" 
+                            v-model="input.value" 
+                            :placeholder="input.placeholder"
+                            :required="input.required"
+                          >
+                          <div class="ojos" v-if="input.type === 'password' || input.pass != null">
+                            <i class="bi bi-eye-slash" v-if="input.pass" @click="visibilidadPassword(index)"></i>
+                            <i class="bi bi-eye" v-if="!input.pass" @click="visibilidadPassword(index)"></i>
+                          </div>
+                          <span v-if="input.required" class="requerido">*</span>
                         </div>
-                    </transition-group>
+                      </transition-group>
                     <button type="submit" :class="{'btn-moving': isMoving, 'btn-returning': isReturning}" :disabled="isSubmitting">
                         <i v-if="!isSubmitted" class="bi bi-send-fill"></i>
                         <i v-if="isSubmitted" class="bi bi-send-check-fill rotate-plus-45"></i>
@@ -84,7 +90,7 @@
                 modelLogIn: {
                     action: '<%= paramas.actionLogIn %>',
                     inputs: [
-                        {name: 'name', type: "text", value: '<%= paramas.nombre %>', placeholder: 'Name', required: true},
+                        {name: 'email', type: "email", value: '<%= paramas.email %>', placeholder: 'Email', required: true},
                         {name: 'password', type: "password", pass: false, placeholder: 'Password', required: true},
                     ]
                 },
@@ -153,6 +159,9 @@
                         setTimeout(() => this.isSubmittedFail = false, 2000);
                     }
                 },
+                getFadeDelay(index) {
+                    return `${index * 0.2}s`;
+                }
             },
         });
     </script>
