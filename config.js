@@ -10,6 +10,9 @@ const fs = require('fs');
  */
 const PORT = 443
 
+// Dominio del servidor
+const DOMAIN = 'https://localhost';
+
 /**
  * Rutas de los directorios
  */
@@ -56,6 +59,7 @@ const URL_RAIZ = '/';
  * Objeto a exportar
  */
 const config = {
+    DOMAIN,
     PORT,
     RAIZ,
     SRC,

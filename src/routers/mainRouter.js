@@ -5,7 +5,7 @@ require('dotenv').config();
 const config = require('/app/config.js');
 
 const userRouter = require(`${config.RUTAS}/user/userRouter`);
-const logInRouter = require(`${config.RUTAS}/user/logIn/logInRouter`);
+const accesoRouter = require(`${config.RUTAS}/user/acceso/accesoRouter`);
 
 // Ruta raiz
 router.get('/', (req, res) => {
@@ -16,8 +16,8 @@ router.get('/', (req, res) => {
 router.use('/home', userRouter);
 
 // ruta y sus derivados ruta/:path?'
-router.use('/login', logInRouter);
-router.use('/signup', logInRouter);
+router.use('/login', accesoRouter);
+router.use('/signup', accesoRouter);
 
 
 router.use((req, res) => {

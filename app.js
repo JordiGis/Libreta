@@ -1,21 +1,14 @@
-// Impotamos el modulo 'express' para poder crear un servidor HTTPS
+// Importamos los módulos necesarios
 const express = require('express');
-
-// Importamos el módulo 'https' para poder crear un servidor HTTPS
 const https = require('https');
-
-// Importamos el módulo 'path' para poder trabajar con rutas de archivos
 const path = require('path');
-
-// Importamos el módulo 'config' para poder acceder a las configuraciones
 require('dotenv').config();
 const config = require('/app/config.js');
-
-// Importamos la Base de Datos
 const db = require(path.join(config.DB, 'db'));
+const bodyParser = require('body-parser'); // Importamos body-parser
 
 /**
- * Creacion de un servidor HTTPS en el puerto 443
+ * Creación de un servidor HTTPS en el puerto 443
  */
 const app = express();
 
@@ -23,11 +16,17 @@ const app = express();
 app.set(config.VISTAS);
 app.set('view engine', 'ejs');
 
+// Middlewares para parsear el cuerpo de la solicitud usando body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// Configurar el middleware para servir archivos estáticos
+app.use(express.static(config.PUBLIC));
+
 /**
  * Gestor de Rutas
  */
 const gestorRutas = require(path.join(config.RUTAS, 'mainRouter'));
-app.use(express.static(config.PUBLIC));
 
 // Delega la gestión de las rutas al gestorRutas
 app.use(config.URL_RAIZ, gestorRutas);

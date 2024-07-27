@@ -10,22 +10,18 @@
     <!-- Local -->
     <link rel="stylesheet" href="../public/css/acceso.css">
     <link rel="stylesheet" href="../public/css/estilo.css">
-        <!-- Bootstrap -->
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="../public/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../public/bootstrap/icons/bootstrap-icons.css">
 
     <!-- Web -->
     <link rel="stylesheet" href="/css/estilo.css">
     <link rel="stylesheet" href="/css/acceso.css">
-        <!-- Bootstrap -->
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="/bootstrap/icons/bootstrap-icons.css">
-
-
-
 </head>
 <body>
-    
     <main id="app">
         <header>
             <h1>Libreta</h1>
@@ -44,16 +40,15 @@
                 </ul>
             </nav>
         </header>
-
         <section>
             <article id="modo">
-                <button id="LogIn" type="button" @click="switchLogIn">LogIn</button>
-                <button id="SignUp" class="modoAleternativo" type="button" @click="switchSignUp">SignUp</button>
+                <button id="LogIn" type="button" @click="switchLogIn" :disabled="isSubmitting">LogIn</button>
+                <button id="SignUp" class="modoAleternativo" type="button" @click="switchSignUp" :disabled="isSubmitting">SignUp</button>
             </article>
             <article>
-                <form @submit="handleSubmit">
-                    <transition name="fade" v-for="(input, index) in model">
-                        <div class="registro" v-if="!isMoving">
+                <form @submit="handleSubmit" :action="model.action" method="post">
+                    <transition-group name="fade" tag="div">
+                        <div v-for="(input, index) in model.inputs" :key="`input-${input.name}-${index}`" class="registro" v-show="isSubmittedFail || !isSubmitted">
                             <label v-if="input.type !== 'submit'" :for="input.name">
                                 {{ label(input.placeholder) }} 
                             </label>
@@ -63,120 +58,103 @@
                                 :id="input.name"
                                 :value="input.value" 
                                 v-model="input.value" 
-                                :pass="input.pass || input.type === 'password'"
                                 :placeholder="input.placeholder"
-                                :requerido="input.required"
+                                :required="input.required"
                             >
                             <div class="ojos" v-if="input.type === 'password' || input.pass != null">
-                                <i class="bi bi-eye-slash" v-if="input.pass" @click="visivilidadPassword(index)"></i>
-                                <i class="bi bi-eye" v-if="input.type === 'password' || !input.pass" @click="visivilidadPassword(index)" class=""></i>
+                                <i class="bi bi-eye-slash" v-if="input.pass" @click="visibilidadPassword(index)"></i>
+                                <i class="bi bi-eye" v-if="!input.pass" @click="visibilidadPassword(index)"></i>
                             </div>
                             <span v-if="input.required" class="requerido">*</span>
                         </div>
-                    </transition>
+                    </transition-group>
                     <button type="submit" :class="{'btn-moving': isMoving, 'btn-returning': isReturning}" :disabled="isSubmitting">
                         <i v-if="!isSubmitted" class="bi bi-send-fill"></i>
                         <i v-if="isSubmitted" class="bi bi-send-check-fill rotate-plus-45"></i>
                     </button>
                 </form>
             </article>
-            
-            
-           
-
-
-
-
         </section>
-
-
     </main>
-
     <script>
-        let vue = new Vue({
+        new Vue({
             el: '#app',
             data: {
-                LogIn: document.querySelector('#LogIn'),
-                SignUp: document.querySelector('#SignUp'),
-                accion: `<%= paramas.accion %>`,
-                modelLogIn: [
-                    {name: 'name', type: "text", value: `<%= paramas.nombre %>`, placeholder: 'Name', required: true},
-                    {name: 'password', type: "password", pass: false, placeholder: 'Password', required: true},
-                ],
-                modelSignUp: [
-                    {name: 'name', type: "text", value: `<%= paramas.nombre %>`, placeholder: 'Name', required: true},
-                    {name: 'email', type: "email", value: `<%= paramas.email %>`, placeholder: 'Email', required: true},
-                    {name: 'password', type: "password", pass: false, placeholder: 'Password', required: true},
-                    {name: 'passwordConf', type: "password", pass: false, placeholder: 'Repeat Password', required: true},
-                ],
-                model: [],
+                accion: '<%= paramas.accion %>',
+                modelLogIn: {
+                    action: '<%= paramas.actionLogIn %>',
+                    inputs: [
+                        {name: 'name', type: "text", value: '<%= paramas.nombre %>', placeholder: 'Name', required: true},
+                        {name: 'password', type: "password", pass: false, placeholder: 'Password', required: true},
+                    ]
+                },
+                modelSignUp: {
+                    action: '<%= paramas.actionSignUp %>',
+                    inputs: [
+                        {name: 'name', type: "text", value: '<%= paramas.nombre %>', placeholder: 'Name', required: true},
+                        {name: 'email', type: "email", value: '<%= paramas.email %>', placeholder: 'Email', required: true},
+                        {name: 'password', type: "password", pass: false, placeholder: 'Password', required: true},
+                        {name: 'passwordConf', type: "password", pass: false, placeholder: 'Repeat Password', required: true},
+                    ]
+                },
+                model: {},
                 isMoving: false,
                 isReturning: false,
                 isSubmitting: false,
-                isSubmitted: false
+                isSubmitted: false,
+                isSubmittedFail: false,
             },
             created() {
                 this.model = this.modelLogIn;
                 if (this.accion === 'signUp') {
                     this.switchSignUp();
-                }else if (this.accion === 'logIn') {
+                } else if (this.accion === 'logIn') {
                     this.switchLogIn();
                 }
             },
             methods: {
-                switchLogIn(){
+                switchLogIn() {
                     this.model = this.modelLogIn;
-                    SignUp.classList.add('modoAleternativo');
-                    LogIn.classList.remove('modoAleternativo');
+                    document.querySelector('#SignUp').classList.add('modoAleternativo');
+                    document.querySelector('#LogIn').classList.remove('modoAleternativo');
                 },
-                switchSignUp(){
+                switchSignUp() {
                     this.model = this.modelSignUp;
-                    LogIn.classList.add('modoAleternativo');
-                    SignUp.classList.remove('modoAleternativo');
+                    document.querySelector('#LogIn').classList.add('modoAleternativo');
+                    document.querySelector('#SignUp').classList.remove('modoAleternativo');
                 },
                 label(placeholder) {
                     return placeholder + ':';
                 },
-                visivilidadPassword(index) {
-                    this.model[index].type = this.model[index].type === 'password' ? 'text' : 'password';
-                    this.model[index].pass = this.model[index].type === 'password' ? false : true;
+                visibilidadPassword(index) {
+                    this.model.inputs[index].type = this.model.inputs[index].type === 'password' ? 'text' : 'password';
+                    this.model.inputs[index].pass = this.model.inputs[index].type === 'password' ? false : true;
                 },
                 validateForm() {
-                    return this.model.every(input => input.required ? input.value.trim() !== '' : true);
+                    return this.model.inputs.every(input => input.required ? input.value.trim() !== '' : true);
                 },
                 handleSubmit(event) {
                     event.preventDefault();
-                    if (this.validateForm()) {
+                    if (true) {
                         this.isSubmitting = true;
                         this.isMoving = true;
                         setTimeout(() => {
                             this.isReturning = true;
                             this.isSubmitted = true;
                             setTimeout(() => {
-                                this.blockScroll();
                                 this.isReturning = false;
                                 this.isSubmitting = false;
-                                this.unblockScroll();
-                            }, 1000);
+                            }, 500);
                             this.isMoving = false;
-                        }, 1000);
+                            event.target.submit();
+                        }, 700);
+                    } else {
+                        this.isSubmittedFail = true;
+                        setTimeout(() => this.isSubmittedFail = false, 2000);
                     }
                 },
-                blockScroll() {
-                    // document.body.style.overflowY = 'hidden';
-                    // document.body.style.scrollbar = 'hidden';
-                    // document.body.style.scrollbarWidth = '0';
-
-                },
-                unblockScroll() {
-                    // document.body.style.overflowY = '';
-                    // document.body.style.scrollbarWidth = '';
-                }
             },
-            
         });
     </script>
-    
-    
 </body>
 </html>
