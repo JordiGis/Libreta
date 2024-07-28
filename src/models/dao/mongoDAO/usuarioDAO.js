@@ -7,7 +7,6 @@ const Usuario = require(path.join(config.MODELOS, 'usuario'));
 // Definición del esquema del usuario para Mongoose
 const usuarioSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
-  fechaNacimiento: { type: Date, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   tareas: [{ type: mongoose.Schema.Types.ObjectId, ref: config.DAO.modelos.tarea }] // Campo no obligatorio
@@ -19,16 +18,14 @@ const UsuarioModel = mongoose.model(config.DAO.modelos.usuario, usuarioSchema, c
 class UsuarioDAO {
   async add(usuario) {
     // const usuarioModel = new UsuarioModel(usuario);
-    const usuarioModel = new UsuarioModel({
-      nombre: usuario.nombre,
-      fechaNacimiento: usuario.fechaNacimiento,
-      email: usuario.email,
-      password: usuario.password,
-      tareas: usuario.tareas
-    });
     try {
-      await usuarioModel.save();
-      return this.mapTo(usuarioModel);
+      await UsuarioModel.create({
+        nombre: usuario.nombre, 
+        email: usuario.email, 
+        password: usuario.password, 
+        tareas: usuario.tareas
+      });
+      return this.getForEmail(usuario.email);
     } catch (error) {
       if (error.code === 11000) {
         // Código de error 11000 indica un error de duplicado en MongoDB
@@ -68,9 +65,11 @@ class UsuarioDAO {
 
   // Método para mapear un documento de Mongoose a un objeto de dominio
   mapTo(usuarioModel) {
+    if (!usuarioModel) {
+      return null;
+    }
     let u = new Usuario(
       usuarioModel.nombre,
-      usuarioModel.fechaNacimiento,
       usuarioModel.email,
       usuarioModel.password
     );
