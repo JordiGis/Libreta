@@ -29,7 +29,8 @@ const DAO = {
     path: path.join(path.join(MODELOS, 'dao'), 'mongoDAO'), // En caso de quere otro DAO, cambiar esta línea
     modelos: {
         usuario: 'Usuario', // Nombre de las colecciones, tambien sera el nombre para los esquemas de en este caso MongoDb
-        tarea: 'Tarea' // Nombre de las colecciones, tambien sera el nombre para los esquemas de en este caso MongoDb
+        tarea: 'Tarea', // Nombre de las colecciones, tambien sera el nombre para los esquemas de en este caso MongoDb
+        log: 'Log' // Nombre de las colecciones, tambien sera el nombre para los esquemas de en este caso MongoDb
     }
 }
 const PUBLIC = path.join(SRC, 'public');

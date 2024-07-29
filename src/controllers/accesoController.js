@@ -1,9 +1,12 @@
 require('dotenv').config();
 const path = require('path');
 const config = require('/app/config.js');
+const { log } = require('console');
 const ClassController = require(path.join(config.INTERFACES, 'controller'));
 const Usuario = require(path.join(config.MODELOS, 'usuario'));
-const repositoryUser = require(path.join(config.REPOSITORY, 'usuariosRepository'));
+const userRepository = require(path.join(config.REPOSITORY, 'usuariosRepository'));
+const { Log, type, status } = require(path.join(config.MODELOS, 'log'));
+const logRepository = require(path.join(config.REPOSITORY, 'logRepository'));
 
 const dominio = config.DOMAIN+config.URL_RAIZ;
 
@@ -30,14 +33,16 @@ class accesoController extends ClassController {
         if (req.baseUrl === '/login') {
             // Lógica para iniciar sesión
             console.log('Iniciar sesión');
-            const dbUser = await repositoryUser.getForEmail(usuario.email);
+            const dbUser = await userRepository.getForEmail(usuario.email);
             if (dbUser) {
                 // Validar la contraseña tendra que ser un hash
                 if (dbUser.password === usuario.password) {
                     console.log('Usuario autenticado');
+                    logRepository.add(new Log(dbUser, type.LOGIN, new Date(), status.SUCCESS, { report: 'Usuario autenticado' }));
                     res.send(`Usuario autenticado: ${JSON.stringify(dbUser)}`);
                 } else {
                     console.log('Contraseña incorrecta');
+                    logRepository.add(new Log(dbUser, type.LOGIN, new Date(), status.FAILED, { report: 'Contraseña incorrecta' }));
                     res.send('Contraseña incorrecta');
                 }
             } else {
@@ -53,18 +58,21 @@ class accesoController extends ClassController {
                 return;
             }
             console.log('Registrar nuevo usuario');
-            const dbUser = await repositoryUser.getForEmail(usuario.email);
+            const dbUser = await userRepository.getForEmail(usuario.email);
             if (dbUser) {
                 console.log('El usuario ya existe');
                 res.send('El usuario ya existe');
                 return;
             }
-            const newUser = await repositoryUser.add(usuario);
-            if (newUser) {
+            const newUser = await userRepository.add(usuario);
+            if (newUser.errors === null) {
                 console.log('Usuario registrado');
+                logRepository.add(new Log(newUser, type.CREATE_USER, new Date(), status.SUCCESS, { report: 'Usuario registrado' }));
                 res.send(`Usuario registrado: ${JSON.stringify(newUser)}`);
             } else {
                 console.log('Error al registrar el usuario');
+                newUser.errors = JSON.stringify(newUser.errors);
+                logRepository.add(new Log(null, type.CREATE_USER, new Date(), status.FAILED, { report: 'Error al registrar el usuario', error: newUser.message }));
                 res.send('Error al registrar el usuario');
             }
         }
