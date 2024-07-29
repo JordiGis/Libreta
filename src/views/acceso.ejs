@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acceso</title>
-
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     
     <!-- Local -->
@@ -76,7 +75,7 @@
                             <i class="bi bi-eye-slash" v-if="input.pass" @click="visibilidadPassword(index)"></i>
                             <i class="bi bi-eye" v-if="!input.pass" @click="visibilidadPassword(index)"></i>
                           </div>
-                          <span v-if="input.required" class="requerido">*</span>
+                          <animated-span :visible="input.required === true"></animated-span>
                         </div>
                       </transition-group>
                     <button type="submit" :class="{'btn-moving': isMoving, 'btn-returning': isReturning}" :disabled="isSubmitting">
@@ -87,6 +86,7 @@
             </article>
         </section>
     </main>
+    <script src="vue/componentes/requerido.js"></script>
     <script>
         new Vue({
             el: '#app',
@@ -96,7 +96,7 @@
                     action: '<%= paramas.actionLogIn %>',
                     inputs: [
                         {name: 'email', type: "email", value: '<%= paramas.email %>', placeholder: 'Email', required: true},
-                        {name: 'password', type: "password", pass: false, placeholder: 'Password', required: true},
+                        {name: 'password', type: "password", value: "", pass: false, placeholder: 'Password', required: true},
                     ]
                 },
                 modelSignUp: {
@@ -104,8 +104,8 @@
                     inputs: [
                         {name: 'name', type: "text", value: '<%= paramas.nombre %>', placeholder: 'Name', required: true},
                         {name: 'email', type: "email", value: '<%= paramas.email %>', placeholder: 'Email', required: true},
-                        {name: 'password', type: "password", pass: false, placeholder: 'Password', required: true},
-                        {name: 'passwordConf', type: "password", pass: false, placeholder: 'Repeat Password', required: true},
+                        {name: 'password', type: "password", value: "", pass: false, placeholder: 'Password', required: true},
+                        {name: 'passwordConf', type: "password", value: "", pass: false, placeholder: 'Repeat Password', required: true},
                     ]
                 },
                 model: {},
@@ -177,10 +177,9 @@
                     }
                 },
                 requerido(index) {
-                    if (this.model.inputs[index].value.trim() === '') {
-                        this.model.inputs[index].required = true;
-                    }
-                    this.model.inputs[index].required = (this.model.inputs[index].value.trim() === '')? true : false;
+                    debugger
+                    return this.model.inputs[index].required = (this.model.inputs[index].value === '')? true : false;
+
                 }
             },
         });
