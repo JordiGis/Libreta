@@ -1,10 +1,17 @@
+:root{
+    --color-seleccion: #007bff;
+    --color-primario: #737373;
+    --color-secundario: #3c3c3c;
+    --texto: white;
+}
+
 html{
     height: 100%;
 }
 
 body{
     height: 100%;
-    background-color: #737373;
+    background-color: var(--color-primario);
     margin: 0;
     padding: 0;
 }
@@ -12,7 +19,7 @@ body{
 main{
     height: 100%;
     display: flex;
-    background-color: #737373;
+    background-color: var(--color-primario);
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
@@ -20,8 +27,8 @@ main{
     header{
         width: 100%;
         padding: 10px;
-        background-color: #3c3c3c;
-        color: white;
+        background-color: var(--color-secundario);
+        color: var(--texto);
 
         display: flex;
         justify-content: space-between;
@@ -40,20 +47,32 @@ main{
             ul{
                 list-style: none;
                 display: grid;
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(2, 1fr);
                 padding: 0;
                 margin: 0;
                 li{
                     text-align: center;
-                    a{
-                        text-decoration: none;
-                        color: white;
-                        transition: all 0.3s;
+                    margin: 5px;
+                    transition: all 0.3s;
+                    a button{
+                        background: none;
+                        border: none;
+                        padding: 5px 10px;
+                        i{
+                            text-decoration: none;
+                            font-size: 20px;
+                            color: var(--texto);
+                            transition: all 0.3s;
+                        }
                     }
 
-                    a:hover{
-                        color: #007bff;
+                    a:hover button i{
+                        color: var(--color-seleccion);
                     }
+                }
+
+                li:hover{
+                    transform: scale(1.5);
                 }
             }
         }

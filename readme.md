@@ -64,6 +64,15 @@ Almacena las utilidades de la aplicación, que se encargan de realizar tareas au
 ### Esquema DB
 ![esquema](./doc/esquemaDB.png)
 
+### Vistas
+#### Home
+![home](./doc/home.png)
+
+#### Login
+![login](./doc/login.png)
+
+#### Register
+![register](./doc/register.png)
 
 ## Implementación
 ### Cloner Repositorio

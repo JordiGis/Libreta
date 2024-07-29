@@ -27,27 +27,34 @@ class accesoController extends ClassController {
     async postRaiz(req, res) {
         const body = req.body;
         const usuario = new Usuario(body.name, body.email, body.password);
-        if (!usuario.nombre) {
-            usuario.nombre = '';
-        }
+        // if (!usuario.nombre) {
+        //     usuario.nombre = '';
+        // }
         if (req.baseUrl === '/login') {
             // Lógica para iniciar sesión
             console.log('Iniciar sesión');
             const dbUser = await userRepository.getForEmail(usuario.email);
-            if (dbUser) {
-                // Validar la contraseña tendra que ser un hash
-                if (dbUser.password === usuario.password) {
-                    console.log('Usuario autenticado');
-                    logRepository.add(new Log(dbUser, type.LOGIN, new Date(), status.SUCCESS, { report: 'Usuario autenticado' }));
-                    res.send(`Usuario autenticado: ${JSON.stringify(dbUser)}`);
-                } else {
-                    console.log('Contraseña incorrecta');
-                    logRepository.add(new Log(dbUser, type.LOGIN, new Date(), status.FAILED, { report: 'Contraseña incorrecta' }));
-                    res.send('Contraseña incorrecta');
-                }
-            } else {
+            if (dbUser === null) {
                 console.log('Usuario no encontrado');
                 res.send('Usuario no encontrado');
+                return;
+            }
+            // Validar la contraseña tendra que ser un hash, y se tendra que comparar si se han hecho otro intentos de logIn antes
+            if (dbUser.password === usuario.password) {
+                console.log('Usuario autenticado');
+                logRepository.add(new Log(dbUser, type.LOGIN, new Date(), status.SUCCESS, { report: 'Usuario autenticado' }));
+                res.send(`Usuario autenticado: ${JSON.stringify(dbUser)}`);
+            } else {
+                console.log('Contraseña incorrecta');
+                logRepository.add(new Log(dbUser, type.LOGIN, new Date(), status.FAILED, { report: 'Contraseña incorrecta' }));
+                let paramas = {
+                    actionLogIn: dominio+"login",
+                    actionSignUp: dominio+"signUp",
+                    email: dbUser.email,
+                    accion: "login",
+                    error: 'Contraseña incorrecta'
+                };
+                res.render(path.join(config.VISTAS, 'acceso'), { paramas });
             }
             
         } else if (req.baseUrl === '/signUp') {

@@ -28,13 +28,17 @@
             <nav>
                 <ul>
                     <li>
-                        <a href="#">
-                            <i class="bi bi-house-fill"></i>
+                        <a href="/">
+                            <button id="home" type="button">
+                                <i class="bi bi-house-fill"></i>
+                            </button>
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            <i class="bi bi-list"></i>
+                            <button id="menu" type="button">
+                                <i class="bi bi-list"></i>
+                            </button>
                         </a>
                     </li>
                 </ul>
@@ -66,6 +70,7 @@
                             v-model="input.value" 
                             :placeholder="input.placeholder"
                             :required="input.required"
+                            @blur="requerido(index)"
                           >
                           <div class="ojos" v-if="input.type === 'password' || input.pass != null">
                             <i class="bi bi-eye-slash" v-if="input.pass" @click="visibilidadPassword(index)"></i>
@@ -117,17 +122,20 @@
                 } else if (this.accion === 'logIn') {
                     this.switchLogIn();
                 }
+                this.revision();
             },
             methods: {
                 switchLogIn() {
                     this.model = this.modelLogIn;
                     document.querySelector('#SignUp').classList.add('modoAleternativo');
                     document.querySelector('#LogIn').classList.remove('modoAleternativo');
+                    this.revision();
                 },
                 switchSignUp() {
                     this.model = this.modelSignUp;
                     document.querySelector('#LogIn').classList.add('modoAleternativo');
                     document.querySelector('#SignUp').classList.remove('modoAleternativo');
+                    this.revision();
                 },
                 label(placeholder) {
                     return placeholder + ':';
@@ -161,6 +169,18 @@
                 },
                 getFadeDelay(index) {
                     return `${index * 0.2}s`;
+                },
+                revision(){
+                    for (const index in this.model.inputs) {
+                        this.requerido(index)
+                
+                    }
+                },
+                requerido(index) {
+                    if (this.model.inputs[index].value.trim() === '') {
+                        this.model.inputs[index].required = true;
+                    }
+                    this.model.inputs[index].required = (this.model.inputs[index].value.trim() === '')? true : false;
                 }
             },
         });
