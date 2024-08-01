@@ -1,5 +1,4 @@
 const path = require('path');
-require('dotenv').config();
 const config = require('/app/config.js');
 const { get } = require('http');
 const usuarioDAO = require(path.join(config.DAO.path, 'usuarioDAO'));
@@ -34,6 +33,16 @@ class usuariosRepository {
      */
     async getForEmail(email) {
         return await usuarioDAO.getForEmail(email);
+    }
+
+    /**
+     * Necesita un nombre para buscar un usuario
+     * si no se puede crear el usuario retornana null
+     * @param {*} name
+     * @returns
+     */
+    async getForName(name) {
+        return await usuarioDAO.getForName(name);
     }
 
     /**

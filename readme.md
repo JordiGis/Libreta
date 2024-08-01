@@ -72,7 +72,7 @@ Almacena las utilidades de la aplicación, que se encargan de realizar tareas au
 ![login](./doc/login.png)
 
 #### Register
-![register](./doc/register.png)
+![register](./doc/signup.png)
 
 ## Implementación
 ### Cloner Repositorio
@@ -94,11 +94,12 @@ const NAME_CERT = 'local.pem';
 ```
 Cambiar los nombre en caso de ser necesario.
 
-
 ### Añadir Base de Datos
 Esta todo preparado para el uso de MongoDB y MongoOse, para que la palicación este funcionando a pleno rendimiento hara falta establecer conexión con una base de datos, lo mas recomendable para la facil implementación es poner la String de conexión en un archivo `.env` con el nombre `MONGODB_URI`.
 En caso de que todo este bien cuando se levante el servidor se implimirar por terminal un mensaje indicandolo.
 
+### Configuracioón Hash de Contraseñas
+Para la configuración de las contraseñas, se ha usado `bcrypt` para el hash de las contraseñas, por lo que se puede configurar el número de rondas de hash en el archivo `.env`, con el nombre `HASH_ROUNDS`.
 
 ### Docker
 #### Crear y Iniciar Docker por primera vez
@@ -116,7 +117,6 @@ Para detener la imagen de Docker, hay que ejecutar el siguiente comando:
 ```bash
 docker-compose down
 ```
-
 
 # Edición
 ## Edición de config.js

@@ -3,6 +3,7 @@ const path = require('path');
 require('dotenv').config();
 const config = require('/app/config.js');
 const Usuario = require(path.join(config.MODELOS, 'usuario'));
+// const Password = require(path.join(config.MODELOS, 'password'));
 
 // Definición del esquema del usuario para Mongoose
 const usuarioSchema = new mongoose.Schema({
@@ -12,7 +13,7 @@ const usuarioSchema = new mongoose.Schema({
   tareas: [{ type: mongoose.Schema.Types.ObjectId, ref: config.DAO.modelos.tarea }] // Campo no obligatorio
 });
 
-usuarioSchema.index({ email: 1 }, { unique: true });
+usuarioSchema.index({ nombre: 1 }, { unique: true }, { email: 1 }, { unique: true });
 const UsuarioModel = mongoose.model(config.DAO.modelos.usuario, usuarioSchema, config.DAO.modelos.usuario);
 
 class UsuarioDAO {
@@ -33,6 +34,11 @@ class UsuarioDAO {
 
   async getForId(id) {
     let usuarioModel = await UsuarioModel.findOne({ _id: id }).exec();
+    return this.mapTo(usuarioModel);
+  }
+
+  async getForName(name) {
+    let usuarioModel = await UsuarioModel.findOne({ nombre: name }).exec();;
     return this.mapTo(usuarioModel);
   }
 
