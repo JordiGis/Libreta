@@ -7,10 +7,11 @@ const usuariosRepository = require(path.join(config.REPOSITORY, 'usuariosReposit
 
 class homeController extends ClassController {
     async raiz(req, res) {
-        let usuario = new Usuario("Juan", new Date(), "juan@gestor.es", "1234");
-        let result = await usuariosRepository.add(usuario);
-        res.json(result);
-        console.log(result);
+        // let usuario = new Usuario("Juan", new Date(), "juan@gestor.es", "1234");
+        // let result = await usuariosRepository.add(usuario);
+        // res.json(result);
+        // console.log(result);
+        res.render(path.join(config.VISTAS, 'pages/home'));
     }
 
     async info(req, res) {
