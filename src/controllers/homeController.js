@@ -11,7 +11,11 @@ class homeController extends ClassController {
         // let result = await usuariosRepository.add(usuario);
         // res.json(result);
         // console.log(result);
-        res.render(path.join(config.VISTAS, 'pages/home'));
+        const datosParaVue = {
+            titulo: "Home",
+            mensaje: "¡Hola desde la ruta /home/raiz!"
+        };
+        res.render(path.join(config.VISTAS, 'acceso/index'), { datosParaVue });
     }
 
     async info(req, res) {

@@ -1,0 +1,13 @@
+<% var head = `
+<meta name="description" content="Home Page">
+<link rel="stylesheet" href="/home/estilo.css">
+<link rel="stylesheet" href="/estilo.css">
+`; %>
+
+<% var body = `
+  <h2>Welcome to the Home Page</h2>
+  <p>This is the home page content.</p>
+  <p></p>
+`; %>
+
+<%- include('../../layouts/main', { title: 'Home', head: head, body: body }) %>

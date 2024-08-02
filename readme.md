@@ -119,6 +119,9 @@ docker-compose down
 ```
 
 # Edición
+## Vistas de `EJS`
+En caso de ver errores en las vistas de EJS lo mas seguro es que sea porque son vistas dinamicas y pero si cuando se cargan no sale el error hay que ignorarlos, ya que al ser vistas dinamicas es posibles que desde esa vista le fan un valor que se definiran en el momento de la carga.
+
 ## Edición de config.js
 Desde ese archivo se puede modificar la estructura de fichero, ya que todo el proyecto recojer las rutas del objeto cofig que se exporta.
 Tambien se puede cambiar la url base, en el caso por defecto es `/`, pero se puede cambiar en la siguiente liena:

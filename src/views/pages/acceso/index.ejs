@@ -1,0 +1,65 @@
+<% var head = `
+  <meta name="description" content="Acceso">
+  <link rel="stylesheet" href="/acceso/estilo.css">
+  <link rel="stylesheet" href="css/estilo.css">
+  <script>
+    const paramas = ${JSON.stringify(paramas)};
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+`; %>
+
+<% var body = `
+  <section>
+    <article id="modo">
+      <button id="LogIn" type="button" @click="switchLogIn" :disabled="isSubmitting">LogIn</button>
+      <button id="SignUp" class="modoAleternativo" type="button" @click="switchSignUp" :disabled="isSubmitting">SignUp</button>
+    </article>
+    <article>
+      <form @submit="handleSubmit" :action="model.action" method="post">
+        <transition-group name="stagger-fade" tag="div">
+          <div
+            v-for="(input, index) in model.inputs"
+            :key="'input-' + input.name + '-' + index"
+            class="registro"
+            v-show="isSubmittedFail || !isSubmitted"
+            :style="{ '--fade-delay': getFadeDelay(index) }"
+          >
+            <label v-if="input.type !== 'submit'" :for="input.name">
+              {{ label(input.placeholder) }}
+            </label>
+            <input
+              :type="input.type"
+              :name="input.name"
+              :id="input.name"
+              :value="input.value"
+              v-model="input.value"
+              :placeholder="input.placeholder"
+              :required="input.required"
+              @blur="requerido(index)"
+            >
+            <div class="ojos" v-if="input.type === 'password' || input.pass != null">
+              <i class="bi bi-eye-slash" v-if="input.pass" @click="visibilidadPassword(index)"></i>
+              <i class="bi bi-eye" v-if="!input.pass" @click="visibilidadPassword(index)"></i>
+            </div>
+            <animated-span :visible="input.required === true"></animated-span>
+          </div>
+        </transition-group>
+        <button type="submit" :class="{'btn-moving': isMoving, 'btn-returning': isReturning}" :disabled="isSubmitting">
+          <i v-if="!isSubmitted" class="bi bi-send-fill"></i>
+          <i v-if="isSubmitted" class="bi bi-send-check-fill rotate-plus-45"></i>
+        </button>
+      </form>
+    </article>
+  </section>
+`; %>
+
+<% var footer = `
+  <footer>
+    <p>&copy; 2024 Mi Sitio Web. Todos los derechos reservados.</p>
+  </footer>
+  <script src="vue/componentes/requerido.js"></script>
+  <script src="/acceso/script.js"></script>
+`; 
+%>
+
+<%- include('../../layouts/main', { title: 'Acceso', head: head, body: body, footer: footer }) %>

@@ -7,6 +7,7 @@ const { Password, comparePass } = require(path.join(config.MODELOS, 'password'))
 const userRepository = require(path.join(config.REPOSITORY, 'usuariosRepository'));
 const { Log, type, status } = require(path.join(config.MODELOS, 'log'));
 const logRepository = require(path.join(config.REPOSITORY, 'logRepository'));
+const ACCESO = path.join(config.VISTAS, 'acceso');
 
 const dominio = config.DOMAIN+config.URL_RAIZ;
 
@@ -21,7 +22,7 @@ class accesoController extends ClassController {
             email: "test@test",
             accion: (req.baseUrl.toLowerCase() === '/login')? "login": "signUp"
         };
-        res.render(path.join(config.VISTAS, 'acceso'), { paramas });
+        res.render(path.join(ACCESO, 'index'), { paramas });
     }
 
     async postRaiz(req, res) {
@@ -37,7 +38,7 @@ class accesoController extends ClassController {
                 return;
             }
             // Validar la contraseña tendra que ser un hash, y se tendra que comparar si se han hecho otro intentos de logIn antes
-            if (comparePass(dbUser.password, body.password)) {
+            if (await comparePass(dbUser.password, body.password)) {
                 console.log('Usuario autenticado');
                 logRepository.add(new Log(dbUser, type.LOGIN, new Date(), status.SUCCESS, { report: 'Usuario autenticado' }));
                 res.send(`Usuario autenticado: ${JSON.stringify(dbUser)}`);
@@ -51,7 +52,7 @@ class accesoController extends ClassController {
                     accion: "login",
                     error: 'Contraseña incorrecta'
                 };
-                res.render(path.join(config.VISTAS, 'acceso'), { paramas });
+                res.render(path.join(ACCESO, 'index'), { paramas });
             }
             
         } 

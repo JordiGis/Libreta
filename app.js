@@ -22,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Configurar el middleware para servir archivos estáticos
 app.use(express.static(config.PUBLIC));
+app.use(express.static(config.VISTAS));
 
 /**
  * Gestor de Rutas
