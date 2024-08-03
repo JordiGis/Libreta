@@ -1,11 +1,10 @@
 const path = require('path');
-require('dotenv').config();
 const config = require('/app/config.js');
-const ClassController = require(path.join(config.INTERFACES, 'controller'));
 const Usuario = require(path.join(config.MODELOS, 'usuario'));
 const usuariosRepository = require(path.join(config.REPOSITORY, 'usuariosRepository'));
+const HOME = path.join(config.VISTAS, 'home');
 
-class homeController extends ClassController {
+class homeController {
     async raiz(req, res) {
         // let usuario = new Usuario("Juan", new Date(), "juan@gestor.es", "1234");
         // let result = await usuariosRepository.add(usuario);
@@ -15,7 +14,7 @@ class homeController extends ClassController {
             titulo: "Home",
             mensaje: "¡Hola desde la ruta /home/raiz!"
         };
-        res.render(path.join(config.VISTAS, 'acceso/index'), { datosParaVue });
+        res.render(path.join(HOME, 'index'), { datosParaVue });
     }
 
     async info(req, res) {

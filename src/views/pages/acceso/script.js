@@ -1,19 +1,19 @@
 new Vue({
     el: '#app',
     data: {
-        accion: paramas.accion,
+        accion: params.accion,
         modelLogIn: {
-            action: paramas.actionLogIn,
+            action: params.actionLogIn,
             inputs: [
-                { name: 'name', type: "text", value: paramas.nombre, placeholder: 'Name', required: true },
+                { name: 'name', type: "text", value: params.nombre, placeholder: 'Name', required: true },
                 { name: 'password', type: "password", value: "", pass: false, placeholder: 'Password', required: true },
             ]
         },
         modelSignUp: {
-            action: paramas.actionSignUp,
+            action: params.actionSignUp,
             inputs: [
-                { name: 'name', type: "text", value: paramas.nombre, placeholder: 'Name', required: true },
-                { name: 'email', type: "email", value: paramas.email, placeholder: 'Email', required: true },
+                { name: 'name', type: "text", value: params.nombre, placeholder: 'Name', required: true },
+                { name: 'email', type: "email", value: params.email, placeholder: 'Email', required: true },
                 { name: 'password', type: "password", value: "", pass: false, placeholder: 'Password', required: true },
                 { name: 'passwordConf', type: "password", value: "", pass: false, placeholder: 'Repeat Password', required: true },
             ]

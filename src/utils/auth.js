@@ -1,25 +1,42 @@
 const path = require('path');
-const config = require('/app/config.js');
-const Usuario = require(path.join(config.MODELOS, 'usuario'));
-const userRepository = require(path.join(config.REPOSITORY, 'usuariosRepository'));
-const { Log, type, status } = require(path.join(config.MODELOS, 'log'));
-const logRepository = require(path.join(config.REPOSITORY, 'logRepository'));
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
 
 
-class auth {
-    constructor() {    }
+const auth = (req, res, next) => {
+    const token = req.cookies['token']; // Leer el token de la cookie
 
-    authLogIn(body) {
-        const {  } = body;
-        // Se realizara con tokens de sesion
-        return false;
+    if (!token) return res.sendStatus(401);
+
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    });
+};
+
+
+/**
+ * Obtiene el ID del usuario del token JWT almacenado en la cookie.
+ * @param {Object} cookies - El objeto cookies de la solicitud.
+ * @returns {string|null} - El ID del usuario si el token es válido, o null si no lo es.
+ */
+function getUserIdFromToken(cookies) {
+    const token = cookies['token']; // Leer el token de la cookie
+
+    if (!token) {
+        return null; // No hay token en la cookie
     }
-
-    // authAdmin(body) {
-    //     const { email, password } = body;
-    //     se implementaran roles
-    //     return false;
-    // }
-    
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET); // Verificar y decodificar el token
+        return decoded.userId || null; // Devolver el ID del usuario del payload
+    } catch (error) {
+        return null; // Token no válido o error al verificar
+    }
 }
-module.exports = new auth;
+
+module.exports = {
+    auth,
+    getUserIdFromToken
+};

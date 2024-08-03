@@ -1,0 +1,26 @@
+<% var head = `
+  <meta name="description" content="user">
+  <link rel="stylesheet" href="/user/estilo.css">
+  <link rel="stylesheet" href="/css/estilo.css">
+  <script>
+    const params = ${JSON.stringify(params)};
+  </script>
+  <script src="/vue/vue.js"></script>
+`; %>
+
+
+<% var body = `
+  <h2>Welcome {{ params.name }}</h2>
+  <p>This is the home page content.</p>
+  <p></p>
+`; %>
+
+<% var footer = `
+  <footer>
+    <p>&copy; 2024 Mi Sitio Web. Todos los derechos reservados.</p>
+  </footer>
+  <script src="/user/script.js"></script>
+`; 
+%>
+
+<%- include('../../layouts/main', { title: params.titulo, head: head, body: body, footer: footer }) %>

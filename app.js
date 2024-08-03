@@ -6,11 +6,13 @@ require('dotenv').config();
 const config = require('/app/config.js');
 const db = require(path.join(config.DB, 'db'));
 const bodyParser = require('body-parser'); // Importamos body-parser
+const cookieParser = require('cookie-parser'); // Importamos cookie-parser
 
 /**
  * Creación de un servidor HTTPS en el puerto 443
  */
 const app = express();
+app.use(cookieParser());
 
 // Configurar el directorio de vistas y el motor de plantillas
 app.set(config.VISTAS);

@@ -1,28 +1,29 @@
 const path = require('path');
 const config = require('/app/config.js');
 const { log } = require('console');
-const ClassController = require(path.join(config.INTERFACES, 'controller'));
 const Usuario = require(path.join(config.MODELOS, 'usuario'));
 const { Password, comparePass } = require(path.join(config.MODELOS, 'password'));
 const userRepository = require(path.join(config.REPOSITORY, 'usuariosRepository'));
 const { Log, type, status } = require(path.join(config.MODELOS, 'log'));
 const logRepository = require(path.join(config.REPOSITORY, 'logRepository'));
 const ACCESO = path.join(config.VISTAS, 'acceso');
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const dominio = config.DOMAIN+config.URL_RAIZ;
 
 
-class accesoController extends ClassController {
+class accesoController {
 
     async getRaiz(req, res) {
-        let paramas = {
+        let params = {
             actionLogIn: dominio+"login",
             actionSignUp: dominio+"signUp",
             nombre: "test",
             email: "test@test",
             accion: (req.baseUrl.toLowerCase() === '/login')? "login": "signUp"
         };
-        res.render(path.join(ACCESO, 'index'), { paramas });
+        res.render(path.join(ACCESO, 'index'), { params });
     }
 
     async postRaiz(req, res) {
@@ -38,23 +39,30 @@ class accesoController extends ClassController {
                 return;
             }
             // Validar la contraseña tendra que ser un hash, y se tendra que comparar si se han hecho otro intentos de logIn antes
-            if (await comparePass(dbUser.password, body.password)) {
-                console.log('Usuario autenticado');
-                logRepository.add(new Log(dbUser, type.LOGIN, new Date(), status.SUCCESS, { report: 'Usuario autenticado' }));
-                res.send(`Usuario autenticado: ${JSON.stringify(dbUser)}`);
-            } else {
+            if (!await comparePass(dbUser.password, body.password)) {
                 console.log('Contraseña incorrecta');
                 logRepository.add(new Log(dbUser, type.LOGIN, new Date(), status.FAILED, { report: 'Contraseña incorrecta' }));
-                let paramas = {
-                    actionLogIn: dominio+"login",
-                    actionSignUp: dominio+"signUp",
+                let params = {
+                    actionLogIn: config.URLS.login,
+                    actionSignUp: config.URLS.signUp,
                     name: dbUser.nombre,
                     accion: "login",
                     error: 'Contraseña incorrecta'
                 };
-                res.render(path.join(ACCESO, 'index'), { paramas });
+                res.render(path.join(ACCESO, 'index'), { params });
+                return;
             }
             
+            console.log('Usuario autenticado');
+            const token = jwt.sign({ userId: dbUser.id }, JWT_SECRET, { expiresIn: '1h' });
+            logRepository.add(new Log(dbUser, type.LOGIN, new Date(), status.SUCCESS, { report: 'Usuario autenticado', object: { token: token } }));
+            res.cookie('token', token, {
+                httpOnly: true, // Solo accesible a través del protocolo HTTP, no desde JavaScript del lado del cliente
+                secure: process.env.NODE_ENV === 'production', // Solo enviar la cookie a través de HTTPS en producción
+                sameSite: 'strict' // Prevenir el envío de cookies en solicitudes cruzadas
+            });
+            res.redirect(config.URLS.user);
+            return;
         } 
         
         if (req.baseUrl === '/signUp') {
@@ -79,6 +87,7 @@ class accesoController extends ClassController {
                 newUser.errors = JSON.stringify(newUser.errors);
                 logRepository.add(new Log(null, type.CREATE_USER, new Date(), status.FAILED, { report: 'Error al registrar el usuario', error: newUser.message }));
                 res.send('Error al registrar el usuario');
+                return;
             }
 
             // Nuevo usuario

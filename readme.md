@@ -55,9 +55,6 @@ Almacena los repositorios de la aplicación, que se encargan de gestionar la inf
 #### `src/db/`
 Almacena y establece la conexión con la base de datos de la aplicación.
 
-#### `src/infetences/`
-Almacena las interfaces de la aplicación, que se encargan de definir la estructura de los objetos de la aplicación.
-
 #### `src/utils/`
 Almacena las utilidades de la aplicación, que se encargan de realizar tareas auxiliares.
 

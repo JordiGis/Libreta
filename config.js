@@ -56,6 +56,14 @@ const httpsOptions = {
  */
 const URL_RAIZ = '/';
 
+const URLS = {
+    raiz: DOMAIN+'/',
+    signUp: DOMAIN+'/signUp',
+    login: DOMAIN+'/login',
+    home: DOMAIN+'/home',
+    user: DOMAIN+'/user',
+}
+
 /**
  * Objeto a exportar
  */
@@ -76,7 +84,8 @@ const config = {
     UTILS,
     INTERFACES,
     httpsOptions,
-    URL_RAIZ
+    URL_RAIZ,
+    URLS,
 }
 
 
